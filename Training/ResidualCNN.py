@@ -65,9 +65,6 @@ def resnet_block_B(layer, filters, kernels, dropout, activation,
     if shrink:
         strides = [2, 2]
 
-    if not is_first:
-        layer = bn_relu(layer, dropout=dropout, conv_activation=activation)
-        
     if cross_block:
 
         shortcut = Conv2D(filters=filters,
@@ -78,6 +75,9 @@ def resnet_block_B(layer, filters, kernels, dropout, activation,
                           padding='same')(layer)
     else:
         shortcut = layer
+
+    if not is_first:
+        layer = bn_relu(layer, dropout=dropout, conv_activation=activation)
 
 
 
@@ -127,7 +127,7 @@ def Resnet_Comparation():
     layer = resnet_block_B(layer, 256, [3, 3], 0, 'relu')
     #7*7
     layer = resnet_block_B(layer, 512, [3, 3], 0, 'relu', cross_block=True, shrink=True)
-    layer = resnet_block_B(layer, 512, [3, 3], 0, 'relu')
+    layer = resnet_block_B(layer, 512, [3, 3], 0, 'relu', is_last=True)
 
     output = global_average_pooling(layer, 5)
     model = Model(inputs = [input], outputs = [output])
