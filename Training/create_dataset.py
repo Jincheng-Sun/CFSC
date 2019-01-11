@@ -13,7 +13,7 @@ file5 = '../data/4k_testset.csv'
 file6 = '../data/test_x.npy'
 file7 = '../data/test_y.npy'
 
-file8 = '../data/label.txt'
+file8 = '../data/labels.txt'
 
 file9 = '../data/train_x_ex.npy'
 file10 = '../data/train_y_ex.npy'
@@ -71,13 +71,13 @@ def create(input,output1,output2):
             # vector = vector.tolist()
         dataset_x.append(vector)
         dataset_y.append(labels[employer])
-        print(employer)
-        print(labels[employer])
+        # print(employer)
+        # print(labels[employer])
     np.save(output1, dataset_x)
     np.save(output2, dataset_y)
 #
 # label_dic()
-# create(file5,file6,file7)
-# create(file5,file11,file12)
+create(file5,file6,file7)
+create(file1,file3,file4)
 
 

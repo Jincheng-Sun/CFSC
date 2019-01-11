@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score
 from keras.utils.np_utils import to_categorical
 from sklearn.model_selection import StratifiedKFold
 from keras.utils import np_utils
-
+from keras.callbacks import EarlyStopping
 
 
 
@@ -28,21 +28,29 @@ def train_model():
     num_labels = len(y_labels)
     y_train = to_categorical(y_train.map(lambda x: le.transform([x])[0]), num_labels)
     y_val = to_categorical(y_val.map(lambda x: le.transform([x])[0]), num_labels)
-    model = Sequential()
-    model.add(Dense(1024, input_shape=(x_train.shape[1],), activation='relu'))
-    model.add(Dropout(0.2))
-    model.add(Dense(256, activation='relu'))
-    model.add(Dropout(0.2))
-    model.add(Dense(5, activation='softmax'))
-    model.summary()
-    model.compile(loss='categorical_crossentropy',
-                  optimizer='adam',
-                  metrics=['accuracy'])
+    # model = Sequential()
+    # model.add(Dense(1024, input_shape=(x_train.shape[1],), activation='relu'))
+    # model.add(Dropout(0.2))
+    # model.add(Dense(256, activation='relu'))
+    # model.add(Dropout(0.2))
+    # model.add(Dense(5, activation='softmax'))
+    # model.summary()
+    # model.compile(loss='categorical_crossentropy',
+    #               optimizer='adam',
+    #               metrics=['accuracy'])
+    model = models.load_model('0.7305NN')
+    monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3, patience=10, verbose=1, mode='auto')
     model.fit(x_train, y_train,
               batch_size=500,
-              epochs=10,
-              validation_data=(x_val, y_val))
-    model.save("nnmodel")
+              epochs=50,
+              validation_data=(x_val, y_val),
+              callbacks=[monitor])
+    model.save("0.7305NN")
+    X_test = np.load('../data/test_x.npy')
+    Y_test = np.load('../data/test_y.npy')
+    score = accuracy_score(model.predict_classes(X_test), Y_test)
+
+    print(score)
 
 def k_fold():
     num = 40000
@@ -77,7 +85,7 @@ def k_fold():
 
 # X_test = np.load('../data/test_x.npy')
 # Y_test = np.load('../data/test_y.npy')
-# model=models.load_model("nnmodel")
+# model=models.load_model("0.7305NN")
 # score = accuracy_score(model.predict_classes(X_test), Y_test)
 # print(score)
 

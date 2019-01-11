@@ -12,7 +12,6 @@ from keras import regularizers
 from keras import optimizers
 from keras.callbacks import EarlyStopping
 
-
 # # def train_model(classes):
 # classes = 5
 # num = 40000
@@ -75,7 +74,7 @@ def addLayers(model,filter,starterL):
         model.add(BatchNormalization())
         model.add(LeakyReLU(alpha=0.1))
 
-        model.add(MaxPool2D(pool_size=[2, 2], strides=[2, 2]))
+        # model.add(MaxPool2D(pool_size=[2, 2], strides=[2, 2]))
     else:
         model.add(Conv2D(filters=filter,
                          kernel_size=[3, 3],
@@ -122,32 +121,34 @@ def addLayers(model,filter,starterL):
         model.add(LeakyReLU(alpha=0.1))
     return model
 def train(data_x, data_y, val_x, val_y, name):
-    model = Sequential()
-    model = addLayers(model,32,True)
-    model = addLayers(model, 64, False)
-    model = addLayers(model, 128, False)
-    model = addLayers(model, 256, False)
-    # model = addLayers(model, 512, False)
-    model.add(Conv2D(5,(1,1)))
-    model.add(GlobalAveragePooling2D())
-    model.add(Activation(activation='softmax'))
+    # model = Sequential()
     #
+    # model = addLayers(model,32,True)
+    # model = addLayers(model, 64, False)
+    # model = addLayers(model, 128, False)
+    # model = addLayers(model, 256, False)
+    # model = addLayers(model, 512, False)
+    # model.add(Conv2D(5,(1,1)))
+    # model.add(GlobalAveragePooling2D())
+    # model.add(Activation(activation='softmax'))
+    # model.summary()
+    # adam = optimizers.adam(lr=0.02)
+    # model.compile(loss='categorical_crossentropy',
+    #               optimizer=adam,
+    #               metrics=['accuracy'])
+
     # model.add(Dense(units=classes,
     #                 activation='softmax',
     #                 activity_regularizer=regularizers.l1(0.01),
     #                 kernel_initializer='random_uniform',
     #                 kernel_regularizer=regularizers.l2(0.01),
     #                 bias_initializer='zeros'))
-    model.summary()
-    adam = optimizers.adam(lr=0.005)
-    model.compile(loss='categorical_crossentropy',
-                  optimizer=adam,
-                  metrics=['accuracy'])
+    model = models.load_model('0.8235DCNN')
     monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3, patience=5, verbose=1, mode='auto')
 
     model.fit(data_x, data_y,
-              batch_size=50,
-              epochs=20,
+              batch_size=100,
+              epochs=10,
               validation_data=(val_x, val_y),
               callbacks=[monitor])
     score = model.evaluate(val_x, val_y, verbose=0)
@@ -274,17 +275,11 @@ def test(model):
 
     X_test = np.load('../data/test_x.npy')
     Y_test = np.load('../data/test_y.npy')
-
     # X_train reshape to [40000,100,100]
     X_test = np.reshape(X_test, [4000, 100, 100, 1])
     score = accuracy_score(model.predict_classes(X_test), Y_test)
 
-    encoder = preprocessing.LabelEncoder()
-    Y_train_new = encoder.fit_transform(Y_test)
-    # Y_train_new = encoder.transform(Y_train)
-    Y_train_new = np_utils.to_categorical(Y_train_new, num_classes=5)
-    loss = model.evaluate(X_test, Y_train_new)[0]
-    print(loss)
+    print(score)
 
 
 # train_model(162)
@@ -296,4 +291,5 @@ def catchOn(model):
               validation_data=(x_val, y_val))
 
 
-k_ford()
+# k_ford()
+test('0.8235DCNN')
