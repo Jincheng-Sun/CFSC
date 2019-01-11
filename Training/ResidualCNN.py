@@ -183,3 +183,4 @@ def train(model):
     print(score)
 
 model = Resnet_Comparation()
+train(model)
