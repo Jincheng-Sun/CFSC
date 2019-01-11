@@ -153,7 +153,7 @@ def train(model):
     y_train = to_categorical(y_train.map(lambda x: le.transform([x])[0]), num_labels)
     y_val = to_categorical(y_val.map(lambda x: le.transform([x])[0]), num_labels)
 
-    adam = optimizers.adam(lr=0.005)
+    adam = optimizers.adam(lr=0.01)
     model.compile(loss='categorical_crossentropy',
                   optimizer=adam,
                   metrics=['accuracy'])
