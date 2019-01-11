@@ -64,10 +64,14 @@ def resnet_block_B(layer, filters, kernels, dropout, activation,
     strides = [1, 1]
     if shrink:
         strides = [2, 2]
+
+    if not is_first:
+        layer = bn_relu(layer, dropout=dropout, conv_activation=activation)
+        
     if cross_block:
 
         shortcut = Conv2D(filters=filters,
-                          kernel_size=kernels,
+                          kernel_size=[1,1],
                           kernel_initializer='random_uniform',
                           # kernel_regularizer=regularizers.l2(0.01),
                           strides=strides,
@@ -75,8 +79,7 @@ def resnet_block_B(layer, filters, kernels, dropout, activation,
     else:
         shortcut = layer
 
-    if not is_first:
-        layer = bn_relu(layer, dropout=dropout, conv_activation=activation)
+
 
     layer = Conv2D(filters=filters,
                    kernel_size=kernels,
@@ -86,14 +89,17 @@ def resnet_block_B(layer, filters, kernels, dropout, activation,
                    padding='same')(layer)
     layer = bn_relu(layer, dropout=dropout, conv_activation=activation)
 
-    if not is_last:
-        layer = Conv2D(filters=filters,
-                       kernel_size=kernels,
-                       kernel_initializer='random_uniform',
-                       # kernel_regularizer=regularizers.l2(0.01),
-                       strides=[1, 1],
-                       padding='same')(layer)
+
+    layer = Conv2D(filters=filters,
+                   kernel_size=kernels,
+                   kernel_initializer='random_uniform',
+                   # kernel_regularizer=regularizers.l2(0.01),
+                   strides=[1, 1],
+                   padding='same')(layer)
     layer = add([shortcut,layer])
+
+    if is_last:
+        layer = bn_relu(layer, dropout=dropout, conv_activation=activation)
 
     return layer
 
@@ -177,4 +183,3 @@ def train(model):
     print(score)
 
 model = Resnet_Comparation()
-train(model)
