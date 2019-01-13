@@ -5,7 +5,7 @@ from keras.layers import BatchNormalization, Conv2D, Activation, Dropout, Global
 from keras.models import Model
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score,confusion_matrix
 from keras.utils.np_utils import to_categorical
 from sklearn.model_selection import StratifiedKFold
 from keras.utils import np_utils
@@ -182,5 +182,18 @@ def train(model):
 
     print(score)
 
-model = Resnet_Comparation()
-train(model)
+def test():
+    model = models.load_model('RCNN_compare')
+    X_test = np.load('../data/test_x.npy')
+    Y_test = np.load('../data/test_y.npy')
+    # X_train reshape to [40000,100,100]
+    X_test = np.reshape(X_test, [4000, 100, 100, 1])
+    score = model.predict(X_test)
+
+    print(score)
+
+
+#
+test()
+# model = Resnet_Comparation()
+# train(model)
