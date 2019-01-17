@@ -5,7 +5,7 @@ import numpy as np
 from gensim.models import Word2Vec
 from collections import Counter
 
-file1 = '../data/4w_trainset.csv'
+file1 = '../data/160000_trainset.csv'
 file2 = '../models/CBOW.model'
 file3 = '../data/train_x.npy'
 file4 = '../data/train_y.npy'
@@ -21,7 +21,7 @@ file11 = '../data/test_x_ex.npy'
 file12 = '../data/test_y_ex.npy'
 # def label_dic():
 labels = {}
-file = open(file8,'r',encoding='utf-8')
+file = open(file8,'r',encoding='gb18030')
 count = 0
 for line in file:
     count+=1
@@ -77,7 +77,7 @@ def create(input,output1,output2):
     np.save(output2, dataset_y)
 #
 # label_dic()
-create(file5,file6,file7)
+# create(file5,file6,file7)
 create(file1,file3,file4)
 
 
