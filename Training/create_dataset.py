@@ -9,7 +9,7 @@ file1 = '../data/160000_trainset.csv'
 file2 = '../models/CBOW.model'
 file3 = '../data/train_x.npy'
 file4 = '../data/train_y.npy'
-file5 = '../data/4k_testset.csv'
+file5 = '../data/4000_testset.csv'
 file6 = '../data/test_x.npy'
 file7 = '../data/test_y.npy'
 
@@ -41,7 +41,10 @@ def create(input,output1,output2):
         count += 1
         if (count == 1):
             continue
-        # if (count == 40000):
+
+        # if(count<80000):
+        #     continue
+        # if (count == 80000):
         #     break
         if (count % 1000 == 0):
             print(count)
@@ -77,7 +80,7 @@ def create(input,output1,output2):
     np.save(output2, dataset_y)
 #
 # label_dic()
-# create(file5,file6,file7)
-create(file1,file3,file4)
+create(file5,file6,file7)
+# create(file1,file3,file4)
 
 
