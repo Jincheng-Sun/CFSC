@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from keras import models, Sequential
-from keras.layers import BatchNormalization, Conv2D, Activation, Dropout, GlobalAveragePooling2D, add, Input, MaxPool2D
+from keras.layers import BatchNormalization, Conv2D, Activation, Dropout, GlobalAveragePooling2D, add, Input, Dense
 from keras.models import Model
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
@@ -133,21 +133,41 @@ def Resnet_Comparation():
     model = Model(inputs = [input], outputs = [output])
     model.summary()
     return model
-def ResnetB():
-    input = Input(shape=[1, 100, 100])
+def ResnetB(dense = False):
+    input = Input(shape=[100, 100, 1])
     layer = Conv2D(filters=32,
                    kernel_size=[3, 3],
                    kernel_initializer='random_uniform',
                    # kernel_regularizer=regularizers.l2(0.01),
                    strides=[1, 1],
                    padding='same')(input)
+    layer = resnet_block_B(layer, 32, [3, 3], 0, 'relu')
+    # 50*50
+    layer = resnet_block_B(layer, 64, [3, 3], 0, 'relu', cross_block=True, shrink=True)
+    layer = resnet_block_B(layer, 64, [3, 3], 0, 'relu')
+    # 25*25
+    layer = resnet_block_B(layer, 128, [3, 3], 0, 'relu', cross_block=True, shrink=True)
+    layer = resnet_block_B(layer, 128, [3, 3], 0, 'relu')
+    # 13*13
+    layer = resnet_block_B(layer, 256, [3, 3], 0, 'relu', cross_block=True, shrink=True)
+    layer = resnet_block_B(layer, 256, [3, 3], 0, 'relu')
+    # 7*7
+    layer = resnet_block_B(layer, 512, [3, 3], 0, 'relu', cross_block=True, shrink=True)
+    layer = resnet_block_B(layer, 512, [3, 3], 0, 'relu', is_last=True)
+    if dense:
+        output = Dense(units=5,activation='softmax')(layer)
+    else:
+        output = global_average_pooling(layer, 5)
+    model = Model(inputs=[input], outputs=[output])
+    model.summary()
+    return model
 
 def train(model):
     num = 40000
     X_train = np.load('../data/train_x.npy')[0:num]
     Y_train = np.load('../data/train_y.npy')[0:num]
     X_train = np.reshape(X_train, [40000, 100, 100, 1])
-    x_train, x_val, y_train, y_val = train_test_split(X_train, Y_train, test_size=0.2, random_state=42)
+    x_train, x_val, y_train, y_val = train_test_split(X_train, Y_train, test_size=0.1, random_state=42)
     y_train = pd.DataFrame(y_train)[0]
     y_val = pd.DataFrame(y_val)[0]
     # one-hot，5 category
@@ -173,27 +193,37 @@ def train(model):
     score = model.evaluate(x_val, y_val, verbose=0)
     val_loss = score[0]
     acc = score[1]
-    model.save('RCNN_compare')
-    X_test = np.load('../data/test_x.npy')
-    Y_test = np.load('../data/test_y.npy')
-    # X_train reshape to [40000,100,100]
-    X_test = np.reshape(X_test, [4000, 100, 100, 1])
-    score = accuracy_score(model.predict_classes(X_test), Y_test)
-
-    print(score)
-
-def test():
-    model = models.load_model('RCNN_compare')
+    model.save('0.8278RCNN')
     X_test = np.load('../data/test_x.npy')
     Y_test = np.load('../data/test_y.npy')
     # X_train reshape to [40000,100,100]
     X_test = np.reshape(X_test, [4000, 100, 100, 1])
     score = model.predict(X_test)
+    score = np.argmax(score, axis=1)
+    score = accuracy_score(score, Y_test)
 
     print(score)
 
+def test():
+    model = models.load_model('0.8278RCNN')
+    X_test = np.load('../data/test_x.npy')
+    Y_test = np.load('../data/test_y.npy')
+    # X_train reshape to [40000,100,100]
+    X_test = np.reshape(X_test, [4000, 100, 100, 1])
+    score = model.predict(X_test)
+    score = np.argmax(score, axis=1)
+    score = accuracy_score(score, Y_test)
+    print(score)
 
-#
+
+
 test()
 # model = Resnet_Comparation()
+# train(model)
+
+def conti_train():
+    model = models.load_model('0.8278RCNN')
+    train(model)
+# conti_train()
+# model = ResnetB()
 # train(model)
