@@ -218,12 +218,12 @@ def test():
 
 
 # test()
-# model = Resnet_Comparation()
-# train(model)
+model = Resnet_Comparation()
+train(model)
 
 def conti_train():
     model = models.load_model('0.8278RCNN')
     train(model)
 # conti_train()
-model = ResnetB()
-train(model)
+# model = ResnetB()
+# train(model)

@@ -104,7 +104,6 @@ def train(data_x, data_y, val_x, val_y, name):
     # X_train reshape to [40000,100,100]
     X_test = np.reshape(X_test, [4000, 100, 100, 1])
     score = accuracy_score(model.predict_classes(X_test), Y_test)
-
     print(score)
     return val_loss, acc
 
