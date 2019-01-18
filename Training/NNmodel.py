@@ -14,7 +14,7 @@ from keras.callbacks import EarlyStopping
 
 
 def train_model():
-    num = 40000
+    num = 80000
     X_train = np.load('../data/train_x.npy')[0:num]
     Y_train = np.load('../data/train_y.npy')[0:num]
     x_train, x_val, y_train, y_val = train_test_split(X_train, Y_train, test_size=0.2, random_state=42)
@@ -28,24 +28,24 @@ def train_model():
     num_labels = len(y_labels)
     y_train = to_categorical(y_train.map(lambda x: le.transform([x])[0]), num_labels)
     y_val = to_categorical(y_val.map(lambda x: le.transform([x])[0]), num_labels)
-    # model = Sequential()
-    # model.add(Dense(1024, input_shape=(x_train.shape[1],), activation='relu'))
-    # model.add(Dropout(0.2))
-    # model.add(Dense(256, activation='relu'))
-    # model.add(Dropout(0.2))
-    # model.add(Dense(5, activation='softmax'))
-    # model.summary()
-    # model.compile(loss='categorical_crossentropy',
-    #               optimizer='adam',
-    #               metrics=['accuracy'])
-    model = models.load_model('0.7305NN')
-    monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3, patience=10, verbose=1, mode='auto')
+    model = Sequential()
+    model.add(Dense(1024, input_shape=(x_train.shape[1],), activation='relu'))
+    model.add(Dropout(0.2))
+    model.add(Dense(256, activation='relu'))
+    model.add(Dropout(0.2))
+    model.add(Dense(5, activation='softmax'))
+    model.summary()
+    model.compile(loss='categorical_crossentropy',
+                  optimizer='adam',
+                  metrics=['accuracy'])
+    # model = models.load_model('0.7305NN')
+    monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3, patience=5, verbose=1, mode='auto')
     model.fit(x_train, y_train,
               batch_size=500,
               epochs=50,
               validation_data=(x_val, y_val),
               callbacks=[monitor])
-    model.save("0.7305NN")
+    model.save("80000NN")
     X_test = np.load('../data/test_x.npy')
     Y_test = np.load('../data/test_y.npy')
     score = accuracy_score(model.predict_classes(X_test), Y_test)
