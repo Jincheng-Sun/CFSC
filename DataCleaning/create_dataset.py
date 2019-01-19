@@ -30,6 +30,6 @@ def extract_data(dataset_file,num,train = True):
         out_file = '../data/%d_testset.csv'%(num)
     splitData.extract(dataset_file,num,out_file)
 
-# valid2set(valid_data,0.8)
+valid2set(valid_data,0.8)
 extract_data(train_set,80000,True)
 extract_data(test_set,4000,False)

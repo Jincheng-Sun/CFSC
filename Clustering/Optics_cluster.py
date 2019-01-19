@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 model = Word2Vec.load('../models/CBOW.model')
 file = '../data/all_labels.txt'
 
-dimention = 3
+dimention = 2
 
 
 def avg(num,label_file):
@@ -79,8 +79,8 @@ def avg(num,label_file):
 # class4 = class4.reshape(-1, dimention)
 #
 #
-# def plot2d(dataset, name):
-#     plt.scatter(dataset[:, 0], dataset[:, 1], label=name)
+def plot2d(dataset, name):
+    plt.scatter(dataset[:, 0], dataset[:, 1], label=name)
 
 
 def plotall():
@@ -198,6 +198,13 @@ def create_label(in_file,num,out_label):
     class2 = class2.reshape(-1, dimention)
     class3 = class3.reshape(-1, dimention)
     class4 = class4.reshape(-1, dimention)
+    plot2d(class0, 'class 0')
+    plot2d(class1, 'class 1')
+    plot2d(class2, 'class 2')
+    plot2d(class3, 'class 3')
+    plot2d(class4, 'class 4')
+    plt.legend(loc='upper right')
+    plt.show()
 
     cluster0 = []
     cluster1 = []

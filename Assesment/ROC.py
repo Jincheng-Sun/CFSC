@@ -81,26 +81,30 @@ class AssesmentROC:
     def confusion_metrix(self):
         print(confusion_matrix(y_true=self.Y_test, y_pred=self.y_score_class,
                                labels=[0,1,2,3,4]))
-    def f1_score(self):
+    def score(self):
 
-        macro = f1_score(y_true=self.Y_test, y_pred=self.y_score_class,average='macro')
-        micro = f1_score(y_true=self.Y_test, y_pred=self.y_score_class,average='micro')
-        print(micro)
-        print(macro)
-
-    def precision_recall(self):
+        test = self.Y_test.reshape([-1,1])
+        score = self.y_score_class.reshape([-1,1])
+        macro = f1_score(y_true=test, y_pred=score,average='macro')
+        micro = f1_score(y_true=test, y_pred=score,average='micro')
         precision_a = precision_score(
-            y_true=self.Y_test, y_pred=self.y_score_class,average='macro')
+            y_true=test, y_pred=score, average='macro')
         precision_i = precision_score(
-            y_true=self.Y_test, y_pred=self.y_score_class, average='micro')
+            y_true=test, y_pred=score, average='micro')
         recall_a = recall_score(
-            y_true=self.Y_test, y_pred=self.y_score_class,average='macro')
+            y_true=test, y_pred=score, average='macro')
         recall_i = recall_score(
-            y_true=self.Y_test, y_pred=self.y_score_class,average='micro')
+            y_true=test, y_pred=score, average='micro')
+
+        print(self.Y_test.shape)
+        print(macro)
         print(precision_a)
-        print(precision_i)
         print(recall_a)
+        print(micro)
+        print(precision_i)
         print(recall_i)
+
+
 
 
 model = models.load_model('../Training/80000NN')
@@ -111,8 +115,7 @@ keras_ROC._load_dataset(change_shape=False)
 keras_ROC._predict()
 keras_ROC._drawROC()
 keras_ROC.confusion_metrix()
-keras_ROC.f1_score()
-keras_ROC.precision_recall()
+keras_ROC.score()
 # # X_train reshape to [40000,100,100]
 # X_test = np.reshape(X_test, [4000, 100, 100, 1])
 # # Binarize the output

@@ -2,7 +2,7 @@
 import pandas as pd
 import time
 
-file_path = "/Users/sunjincheng/Documents/nlpdata/5000new.csv"
+file_path = "/Users/sunjincheng/Documents/nlpdata/company.csv"
 valid = '/Users/sunjincheng/Documents/valid_data_all.csv'
 invalid = '/Users/sunjincheng/Documents/nonvalid_all.csv'
 
@@ -27,8 +27,9 @@ def raw2valid(in_file,out_valid,out_inval):
         if (pd.isnull(line['处置单位'])):
             nonvalid_data.append(line)
         elif (line['处置单位'] == "其他单位" or line['处置单位'] == "省外单位" or line['处置单位'] == "省级单位" or line['处置单位'] == "除海口外的市县" or
-              line['处置单位'] == '无效归属'):
+              line['处置单位'] == '无效归属' or line['处置单位'] == '无效数据'):
             nonvalid_data.append(line)
+        else:
             valid_data.append(line)
 
             dep_type.append(line['处置单位'])
@@ -61,4 +62,5 @@ def raw2valid(in_file,out_valid,out_inval):
         print(department[i][0] + str(department[i][1]))
 
 
-
+#
+# raw2valid(file_path,valid,invalid)
