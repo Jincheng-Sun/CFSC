@@ -21,7 +21,7 @@ file11 = '../data/test_x_ex.npy'
 file12 = '../data/test_y_ex.npy'
 # def label_dic():
 labels = {}
-file = open(file8,'r',encoding='utf-8')
+file = open(file8,'r',encoding='gb18030')
 count = 0
 for line in file:
     count+=1
