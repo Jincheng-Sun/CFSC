@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from keras import models, Sequential
-from keras.layers import BatchNormalization, Conv2D, Activation, Dropout, GlobalAveragePooling2D, add, Input, Dense
+from keras.layers import BatchNormalization, Conv2D, Activation, Dropout, GlobalAveragePooling2D, add, Input, Dense,MaxPool2D
 from keras.models import Model
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
@@ -23,16 +23,22 @@ def bn_relu(layer, dropout=0, **params):
     return layer
 
 
-def resnet_block_A(layer, filters, kernels, dropout, activation, cross_block=False):
+def resnet_block_A(layer, filters, kernels, dropout, activation, cross_block=False,shrink = False):
     # -Conv-BN-Act-Conv-BN-Act-
-    # ↳---------------↑
+    # ↳-----Conv-BN-Act-------↑
+
+    shape = [1, 1]
+    if shrink:
+        shape = [2, 2]
+
     if cross_block:
         shortcut = Conv2D(filters=filters,
-                          kernel_size=[1, 1],
+                          kernel_size=shape,
                           kernel_initializer='random_uniform',
                           # kernel_regularizer=regularizers.l2(0.01),
-                          strides=[1, 1],
+                          strides=shape,
                           padding='same')(layer)
+        shortcut = bn_relu(shortcut,conv_activation='relu')
     else:
         shortcut = layer
 
@@ -40,7 +46,7 @@ def resnet_block_A(layer, filters, kernels, dropout, activation, cross_block=Fal
                    kernel_size=kernels,
                    kernel_initializer='random_uniform',
                    # kernel_regularizer=regularizers.l2(0.01),
-                   strides=[1, 1],
+                   strides=shape,
                    padding='same')(layer)
     layer = bn_relu(layer, dropout=dropout, conv_activation=activation)
 
@@ -50,9 +56,14 @@ def resnet_block_A(layer, filters, kernels, dropout, activation, cross_block=Fal
                    # kernel_regularizer=regularizers.l2(0.01),
                    strides=[1, 1],
                    padding='same')(layer)
-    layer = add([shortcut, layer])
+
 
     layer = bn_relu(layer, dropout=dropout, conv_activation=activation)
+
+    layer = add([shortcut, layer])
+
+    # if shrink:
+    #     layer = MaxPool2D()(layer)
 
     return layer
 
@@ -68,7 +79,7 @@ def resnet_block_B(layer, filters, kernels, dropout, activation,
     if cross_block:
 
         shortcut = Conv2D(filters=filters,
-                          kernel_size=[1,1],
+                          kernel_size=strides,
                           kernel_initializer='random_uniform',
                           # kernel_regularizer=regularizers.l2(0.01),
                           strides=strides,
@@ -111,9 +122,10 @@ def global_average_pooling(layer, cls):
     return layer
 
 
-def Resnet_Comparation():
+def Resnet_Comparation(num):
     input = Input(shape=[100, 100, 1])
     #100*100
+
     layer = resnet_block_B(input, 32, [3, 3], 0, 'relu', is_first=True)
     layer = resnet_block_B(layer, 32, [3, 3], 0, 'relu')
     #50*50
@@ -129,7 +141,41 @@ def Resnet_Comparation():
     layer = resnet_block_B(layer, 512, [3, 3], 0, 'relu', cross_block=True, shrink=True)
     layer = resnet_block_B(layer, 512, [3, 3], 0, 'relu', is_last=True)
 
-    output = global_average_pooling(layer, 5)
+    output = global_average_pooling(layer, num)
+    model = Model(inputs = [input], outputs = [output])
+    model.summary()
+    return model
+
+def Resnet_A(num):
+    input = Input(shape=[100, 100, 1])
+    #100*100
+    layer1 = resnet_block_A(layer = input, filters= 32, kernels=[3,3],
+                           dropout= 0,activation = 'relu',cross_block= True)
+    layer2 = resnet_block_A(layer = layer1, filters= 32, kernels=[3,3],
+                           dropout= 0,activation = 'relu')
+    #50*50
+    layer3 = resnet_block_A(layer=layer2, filters=64, kernels=[3, 3],
+                           dropout=0, activation='relu',cross_block= True,shrink=True)
+    layer4 = resnet_block_A(layer = layer3, filters= 64, kernels=[3,3],
+                           dropout= 0,activation = 'relu')
+    #25*25
+    layer5 = resnet_block_A(layer=layer4, filters=128, kernels=[3, 3],
+                           dropout=0, activation='relu', cross_block=True, shrink=True)
+    layer6 = resnet_block_A(layer=layer5, filters=128, kernels=[3, 3],
+                                   dropout=0, activation='relu')
+    #13*13
+    layer7 = resnet_block_A(layer=layer6, filters=256, kernels=[3, 3],
+                           dropout=0, activation='relu', cross_block=True, shrink=True)
+    layer8 = resnet_block_A(layer=layer7, filters=256, kernels=[3, 3],
+                                   dropout=0, activation='relu')
+    #7*7
+    layer9 = resnet_block_A(layer=layer8, filters=512, kernels=[3, 3],
+                           dropout=0, activation='relu', cross_block=True, shrink=True)
+    layer10 = resnet_block_A(layer=layer9, filters=512, kernels=[3, 3],
+                                   dropout=0, activation='relu')
+
+
+    output = global_average_pooling(layer10, num)
     model = Model(inputs = [input], outputs = [output])
     model.summary()
     return model
@@ -163,7 +209,7 @@ def ResnetB(dense = False):
     return model
 
 def train(model):
-    num = 79998
+    num = 19998
     X_train = np.load('../data/train_x.npy')[0:num]
     Y_train = np.load('../data/train_y.npy')[0:num]
     X_train = np.reshape(X_train, [num, 100, 100, 1])
@@ -218,7 +264,7 @@ def test():
 
 
 # test()
-model = Resnet_Comparation()
+model = Resnet_A(5)
 train(model)
 
 def conti_train():

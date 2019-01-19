@@ -21,7 +21,7 @@ file11 = '../data/test_x_ex.npy'
 file12 = '../data/test_y_ex.npy'
 # def label_dic():
 labels = {}
-file = open(file8,'r',encoding='gb18030')
+file = open(file8,'r',encoding='utf-8')
 count = 0
 for line in file:
     count+=1
@@ -42,7 +42,7 @@ def create(input,output1,output2):
         if (count == 1):
             continue
 
-        if (count == 80000):
+        if (count == 20000):
             break
 
 
@@ -85,7 +85,7 @@ def create(input,output1,output2):
     np.save(output2, dataset_y)
 #
 # label_dic()
-create(file5,file6,file7)
+# create(file5,file6,file7)
 create(file1,file3,file4)
 
 

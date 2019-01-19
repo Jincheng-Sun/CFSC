@@ -29,65 +29,65 @@ from keras.callbacks import EarlyStopping
 # x_train, x_val, y_train, y_val = train_test_split(X_train, Y_train, test_size=0.2, random_state=42)
 
 def train(data_x, data_y, val_x, val_y, name):
-    # model = Sequential()
-    # model.add(Conv2D(filters=256,
-    #                  input_shape=[100, 100, 1],
-    #                  kernel_size=[3, 100],
-    #                  kernel_initializer='random_uniform',
-    #                  kernel_regularizer=regularizers.l2(0.01),
-    #                  strides=[1, 100],
-    #                  padding='same',
-    #                  # activity_regularizer=regularizers.l1(0.1)
-    #                  ))
-    # model.add(BatchNormalization())
-    # model.add(LeakyReLU(alpha=0.1))
-    # model.add(Dropout(0.5))
-    # model.add(Flatten())
-    # model.add(Dense(units=256,
-    #                 kernel_initializer='random_uniform',
-    #                 kernel_regularizer=regularizers.l2(0.01),
-    #                 # activity_regularizer=regularizers.l1(0.01)
-    #                 ))
-    # model.add(BatchNormalization())
-    # model.add(LeakyReLU(alpha=0.1))
+    model = Sequential()
+    model.add(Conv2D(filters=256,
+                     input_shape=[100, 100, 1],
+                     kernel_size=[3, 100],
+                     kernel_initializer='random_uniform',
+                     kernel_regularizer=regularizers.l2(0.01),
+                     strides=[1, 100],
+                     padding='same',
+                     # activity_regularizer=regularizers.l1(0.1)
+                     ))
+    model.add(BatchNormalization())
+    model.add(LeakyReLU(alpha=0.1))
+    model.add(Dropout(0.5))
+    model.add(Flatten())
+    model.add(Dense(units=256,
+                    kernel_initializer='random_uniform',
+                    kernel_regularizer=regularizers.l2(0.01),
+                    # activity_regularizer=regularizers.l1(0.01)
+                    ))
+    model.add(BatchNormalization())
+    model.add(LeakyReLU(alpha=0.1))
+
+    model.add(Dense(units=64,
+                    kernel_initializer='random_uniform',
+                    kernel_regularizer=regularizers.l2(0.01),
+                    # activity_regularizer=regularizers.l1(0.01)
+                    ))
+    model.add(BatchNormalization())
+    model.add(LeakyReLU(alpha=0.1))
     #
-    # model.add(Dense(units=64,
-    #                 kernel_initializer='random_uniform',
-    #                 kernel_regularizer=regularizers.l2(0.01),
-    #                 # activity_regularizer=regularizers.l1(0.01)
-    #                 ))
-    # model.add(BatchNormalization())
-    # model.add(LeakyReLU(alpha=0.1))
-    # #
-    # model.add(Dense(units=32,
-    #                 kernel_initializer='random_uniform',
-    #                 kernel_regularizer=regularizers.l2(0.01),
-    #                 # activity_regularizer=regularizers.l1(0.01)
-    #                 ))
-    # model.add(BatchNormalization())
-    # model.add(LeakyReLU(alpha=0.1))
+    model.add(Dense(units=32,
+                    kernel_initializer='random_uniform',
+                    kernel_regularizer=regularizers.l2(0.01),
+                    # activity_regularizer=regularizers.l1(0.01)
+                    ))
+    model.add(BatchNormalization())
+    model.add(LeakyReLU(alpha=0.1))
+
+    model.add(Dense(units=5,
+                    kernel_initializer='random_uniform',
+                    kernel_regularizer=regularizers.l2(0.01),
+                    # activity_regularizer=regularizers.l1(0.1)
+                    ))
+    model.add(BatchNormalization())
+    model.add(Activation('softmax'))
+
     #
-    # model.add(Dense(units=5,
+    # model.add(Dense(units=classes,
+    #                 activation='softmax',
+    #                 activity_regularizer=regularizers.l1(0.01),
     #                 kernel_initializer='random_uniform',
     #                 kernel_regularizer=regularizers.l2(0.01),
-    #                 # activity_regularizer=regularizers.l1(0.1)
-    #                 ))
-    # model.add(BatchNormalization())
-    # model.add(Activation('softmax'))
-    #
-    # #
-    # # model.add(Dense(units=classes,
-    # #                 activation='softmax',
-    # #                 activity_regularizer=regularizers.l1(0.01),
-    # #                 kernel_initializer='random_uniform',
-    # #                 kernel_regularizer=regularizers.l2(0.01),
-    # #                 bias_initializer='zeros'))
-    # model.summary()
-    # adam = optimizers.adam(lr=0.005)
-    # model.compile(loss='categorical_crossentropy',
-    #               optimizer=adam,
-    #               metrics=['accuracy'])
-    model = models.load_model('0.753CNN')
+    #                 bias_initializer='zeros'))
+    model.summary()
+    adam = optimizers.adam(lr=0.005)
+    model.compile(loss='categorical_crossentropy',
+                  optimizer=adam,
+                  metrics=['accuracy'])
+    # model = models.load_model('0.753CNN')
     monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3, patience=5, verbose=1, mode='auto')
 
     model.fit(data_x, data_y,
@@ -109,13 +109,13 @@ def train(data_x, data_y, val_x, val_y, name):
 
 
 def k_ford():
-    num = 40000
+    num = 19998
     X_train = np.load('../data/train_x.npy')[0:num]
     Y_train = np.load('../data/train_y.npy')[0:num]
     scores = []
     count = 0
     LOSS = 100
-    X_train = np.reshape(X_train, [40000, 100, 100, 1])
+    X_train = np.reshape(X_train, [num, 100, 100, 1])
     kfold = StratifiedKFold(n_splits=10, shuffle=True, random_state=5)
     for trainset, testset in kfold.split(X_train, Y_train):
         encoder = preprocessing.LabelEncoder()
