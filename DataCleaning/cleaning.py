@@ -57,8 +57,8 @@ def hgdProcess_dept(sentence):
         ns.append(re.sub("棚改指挥部","",sentence))
     elif (sentence == "纪委" or sentence == "纪委(监察局)"):
         sentence = "纪委监察局"
-    # elif (sentence == "省外单位" or sentence == "无效归属"):
-    #     sentence = "无效数据"
+    elif (sentence == "省外单位" or sentence == "无效归属"):
+        sentence = "无效数据"
     elif (sentence == "面前坡片区改造项目指挥部"):
         sentence = "改造项目指挥部"
         ns.append('面前坡片区')
