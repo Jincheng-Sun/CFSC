@@ -26,7 +26,7 @@ def valid2set(label_file,valid_data,dataset_file):
         job_cls3 = line[5]
         job_cls4 = line[6]
         content = line[8]
-        old_dept = line[13]
+        old_dept = line[14]
         department = old_dept
 
         # process "处置单位"

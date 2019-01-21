@@ -6,7 +6,7 @@ def raw2dataset():
     pass
 
 
-valid_data = '/Users/sunjincheng/Documents/nlpdata/valid_data_all.csv'
+valid_data = '/Users/sunjincheng/Documents/valid_data_all.csv'
 all_label = '../data/all_labels.txt'
 label = '../data/labels.txt'
 dataset_file = '../data/trainset.csv'

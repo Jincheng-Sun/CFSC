@@ -14,7 +14,7 @@ dimention = 2
 def avg(num,label_file):
     dataset = np.array([])
     labels = {}
-    for line in open(label_file, 'r', encoding='utf-8'):
+    for line in open(label_file, 'r', encoding='gb18030'):
         employer = line.split(',')[0]
         words = jieba.cut(employer)
 
@@ -212,7 +212,7 @@ def create_label(in_file,num,out_label):
     cluster3 = []
     cluster4 = []
 
-    for line in open(in_file, 'r', encoding='utf-8'):
+    for line in open(in_file, 'r', encoding='gb18030'):
         employer = line.split(',')[0]
         vector = labels[employer]
         vector = vector.reshape(1, 100)
@@ -244,7 +244,7 @@ def create_label(in_file,num,out_label):
         f.write('\n')
         f.write('第4类' + '\n')
         f.write(str(cluster4))
-    with open(out_label, 'a+', encoding='gb18030') as f:
+    with open(out_label, 'w', encoding='gb18030') as f:
         for cluster in cluster0:
             f.write(cluster + ',0' + '\n')
         for cluster in cluster1:

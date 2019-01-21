@@ -1,4 +1,4 @@
-
+import csv
 import pandas as pd
 import time
 
@@ -61,6 +61,17 @@ def raw2valid(in_file,out_valid,out_inval):
     for i in range(0, len(department)):
         print(department[i][0] + str(department[i][1]))
 
+def clean(valid_file):
+    clean_data = []
+    i = 0
+    for line in csv.reader(open(valid_file,encoding='gb18030')):
+        i += 1
+        if i<=1:
+            continue
 
+        if(line[14] == '无效归属'):
+            print(line[14])
+
+clean(valid)
 #
 # raw2valid(file_path,valid,invalid)
