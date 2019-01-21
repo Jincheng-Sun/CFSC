@@ -5,15 +5,15 @@ import numpy as np
 from gensim.models import Word2Vec
 from collections import Counter
 
-file1 = '../data/80000_trainset.csv'
+file1 = '../data/4w_trainset.csv'
 file2 = '../models/CBOW.model'
 file3 = '../data/train_x.npy'
 file4 = '../data/train_y.npy'
-file5 = '../data/4000_testset.csv'
+file5 = '../data/4k_testset.csv'
 file6 = '../data/test_x.npy'
 file7 = '../data/test_y.npy'
 
-file8 = '../data/labels.txt'
+file8 = '../data/labels_merge.txt'
 
 file9 = '../data/train_x_ex.npy'
 file10 = '../data/train_y_ex.npy'
@@ -21,7 +21,7 @@ file11 = '../data/test_x_ex.npy'
 file12 = '../data/test_y_ex.npy'
 # def label_dic():
 labels = {}
-file = open(file8,'r',encoding='gb18030')
+file = open(file8,'r',encoding='utf-8')
 count = 0
 for line in file:
     count+=1
@@ -42,7 +42,7 @@ def create(input,output1,output2):
         if (count == 1):
             continue
 
-        if (count == 20000):
+        if (count == 40002):
             break
 
 
@@ -85,7 +85,7 @@ def create(input,output1,output2):
     np.save(output2, dataset_y)
 #
 # label_dic()
-# create(file5,file6,file7)
+create(file5,file6,file7)
 create(file1,file3,file4)
 
 

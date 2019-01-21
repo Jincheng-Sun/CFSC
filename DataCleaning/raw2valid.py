@@ -27,7 +27,7 @@ def raw2valid(in_file,out_valid,out_inval):
         if (pd.isnull(line['处置单位'])):
             nonvalid_data.append(line)
         elif (line['处置单位'] == "其他单位" or line['处置单位'] == "省外单位" or line['处置单位'] == "省级单位" or line['处置单位'] == "除海口外的市县" or
-              line['处置单位'] == '无效归属' or line['处置单位'] == '无效数据'):
+              line['处置单位'] == '无效归属' or line['处置单位'] == '无效数据' or line['处置单位'] == "政府单位"):
             nonvalid_data.append(line)
         else:
             valid_data.append(line)

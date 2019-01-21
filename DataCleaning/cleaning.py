@@ -10,8 +10,19 @@ import numpy as np
 from gensim.models import Word2Vec
 
 
+def further_clean():
+    labels = {}
+    label_file = '../data/labels_merge.txt'
+    for line in open(label_file,'r',encoding='utf-8'):
+        try:
+            labels[line.split(',')[0]] = line.split(' ')[1]
+        except:
+            continue
+
+    return labels
 
 def hgdProcess_dept(sentence):
+    labels = further_clean()
     payload = {}
     payload['s'] = sentence
     payload['f'] = 'xml'
@@ -82,7 +93,13 @@ def hgdProcess_dept(sentence):
         sentence = '人力资源和社会保障局'
     elif (sentence == '科工信局'):
         sentence = '科学技术工业信息化局'
+
+    try:
+        sentence = labels[sentence]
+    except:
+        sentence = sentence
     return sentence, '，'.join(ns)
+
 
 def jieba_process_content(cont,model):
 
@@ -108,3 +125,5 @@ def jieba_process_content(cont,model):
 
     return vector
 
+label = further_clean()
+print(label)
