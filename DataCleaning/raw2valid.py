@@ -48,8 +48,8 @@ def raw2valid(in_file,out_valid,out_inval):
     valid_df = valid_df.sort_values(by='处置单位')
     nonvalid_df = nonvalid_df.sort_values(by='处置单位')
 
-    valid_df.to_csv(out_valid, encoding="gb18030")
-    nonvalid_df.to_csv(out_inval, encoding="utf-8")
+    valid_df.to_csv(out_valid, encoding="gb18030", index = False)
+    nonvalid_df.to_csv(out_inval, encoding="gb18030", index = False)
 
     dep_num = set(dep_type)
 

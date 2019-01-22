@@ -109,7 +109,7 @@ def train(data_x, data_y, val_x, val_y, name):
 
 
 def k_ford():
-    num = 19998
+    num = 40000
     X_train = np.load('../data/train_x.npy')[0:num]
     Y_train = np.load('../data/train_y.npy')[0:num]
     scores = []
