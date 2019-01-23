@@ -8,6 +8,9 @@ from sklearn.metrics import roc_curve, auc, confusion_matrix,f1_score,\
     classification_report,precision_score,recall_score
 from sklearn.preprocessing import label_binarize
 from sklearn.metrics import accuracy_score
+import os
+#block Info
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 
 class Assesment_Module:
     def __init__(self, model, X_test, Y_test):
@@ -96,17 +99,22 @@ class Assesment_Module:
 
 
 def assesment(model_type, model_path, testX_path, testY_path, testX_shape):
-    #mode
+    #   model_type: keras, sklearn...
+    #   model_path: path to your model
+    #   testX/Y_path: path of testset, type: .npy
+    #   testX_shape: shape of input data X
     if model_type == 'keras':
         model = models.load_model(model_path)
     else:pass
+
+    #
     X_test = np.load(testX_path)
     Y_test = np.load(testY_path)
-    keras_ROC = Assesment_Module(model, X_test, Y_test)
-    keras_ROC._load_dataset(shape=testX_shape)
-    keras_ROC._predict()
-    keras_ROC._drawROC()
-    keras_ROC.metrics()
+    keras_assesment = Assesment_Module(model, X_test, Y_test)
+    keras_assesment._load_dataset(shape=testX_shape)
+    keras_assesment._predict()
+    keras_assesment._drawROC()
+    keras_assesment.metrics()
 
 assesment(model_type='keras',
           model_path='../models/80000NN',
