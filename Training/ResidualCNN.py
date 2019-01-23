@@ -239,7 +239,7 @@ def train(model):
     score = model.evaluate(x_val, y_val, verbose=0)
     val_loss = score[0]
     acc = score[1]
-    model.save('RCNN')
+    model.save('../models/RCNN')
     X_test = np.load('../data/test_x.npy')
     Y_test = np.load('../data/test_y.npy')
     # X_train reshape to [40000,100,100]
@@ -251,7 +251,7 @@ def train(model):
     print(score)
 
 def test():
-    model = models.load_model('0.8278RCNN')
+    model = models.load_model('../models/0.8278RCNN')
     X_test = np.load('../data/test_x.npy')
     Y_test = np.load('../data/test_y.npy')
     # X_train reshape to [40000,100,100]

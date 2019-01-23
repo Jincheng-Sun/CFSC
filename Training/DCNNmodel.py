@@ -259,7 +259,7 @@ def train2(data_x, data_y, val_x, val_y, name):
     score = model.evaluate(val_x, val_y, verbose=0)
     val_loss = score[0]
     acc = score[1]
-    model.save(name + "kCNNmodel")
+    model.save(name + "../models/kCNNmodel")
     X_test = np.load('../data/test_x.npy')
     Y_test = np.load('../data/test_y.npy')
     # X_train reshape to [40000,100,100]
