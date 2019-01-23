@@ -28,8 +28,17 @@ for line in file:
     count+=1
     labels[line.split(',')[0]] = int(line.split(',')[1])
 
-def create(input,output1,output2):
+def stopwords(file):
+    stopwords = [line[0:-1] for line in open(file, 'r', encoding='utf-8').readlines()]
+    return set(stopwords)
+
+def create(input,output1,output2,stopword = False):
+    if stopword:
+        stopword_list = stopwords('../data/baidu+chuanda.txt')
+    else:
+        stopword_list = []
     labels_trans = cl.further_clean()
+
     #input: raw data
     #output1: train(test)set x, shape = [40000,10000]
     #output2: train(test)set y, shape = [40000,1]
@@ -72,6 +81,9 @@ def create(input,output1,output2):
 
         vector = np.array([])
         for word in splits:
+
+            if word in stopword_list:
+                continue
             try:
                 vec = model[word]
                 vector = np.append(vector, vec)
@@ -92,7 +104,9 @@ def create(input,output1,output2):
     np.save(output2, dataset_y)
 #
 # label_dic()
-create(file5,file6,file7)
-create(file1,file3,file4)
+
+#
+create(file5,file6,file7,stopword=True)
+create(file1,file3,file4,stopword=True)
 
 

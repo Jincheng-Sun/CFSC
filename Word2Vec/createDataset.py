@@ -2,7 +2,7 @@ import csv
 import re
 import jieba
 
-file1 = '/Users/sunjincheng/Documents/nlpdata/valid_data_all.csv'
+file1 = '/Users/sunjincheng/Documents/valid_data_all.csv'
 file2 = '../data/split_data.txt'
 read_file = open(file1, encoding='gb18030')
 lines = csv.reader(read_file)
