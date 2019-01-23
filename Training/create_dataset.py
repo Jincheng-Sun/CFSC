@@ -44,8 +44,8 @@ def create(input,output1,output2):
         if (count == 1):
             continue
 
-        if (count == 40002):
-            break
+        # if (count == 40002):
+        #     break
 
 
         # if(count<80000):

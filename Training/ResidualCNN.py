@@ -209,7 +209,7 @@ def ResnetB(dense = False):
     return model
 
 def train(model):
-    num = 40000
+    num = 80000
     X_train = np.load('../data/train_x.npy')[0:num]
     Y_train = np.load('../data/train_y.npy')[0:num]
     X_train = np.reshape(X_train, [num, 100, 100, 1])
@@ -239,7 +239,7 @@ def train(model):
     score = model.evaluate(x_val, y_val, verbose=0)
     val_loss = score[0]
     acc = score[1]
-    model.save('RCNN2')
+    model.save('RCNN')
     X_test = np.load('../data/test_x.npy')
     Y_test = np.load('../data/test_y.npy')
     # X_train reshape to [40000,100,100]
@@ -264,12 +264,12 @@ def test():
 
 
 # test()
-model = Resnet_A(5)
-train(model)
+# model = Resnet_A(5)
+# train(model)
 
 def conti_train():
-    model = models.load_model('0.8278RCNN')
+    model = models.load_model('RCNN2')
     train(model)
-# conti_train()
+conti_train()
 # model = ResnetB()
 # train(model)
