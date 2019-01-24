@@ -85,7 +85,7 @@ class Assesment_Module:
         plt.legend(loc="lower right")
         plt.show()
 
-    def metrics(self):
+    def _metrics(self):
         # print metrics
         self.accuracy = accuracy_score(y_true=self.Y_test, y_pred=self.y_pred_class)
         print("Accuracy: "+str(self.accuracy)+'\n')
@@ -114,7 +114,7 @@ def assesment(model_type, model_path, testX_path, testY_path, testX_shape):
     keras_assesment._load_dataset(shape=testX_shape)
     keras_assesment._predict()
     keras_assesment._drawROC()
-    keras_assesment.metrics()
+    keras_assesment._metrics()
 
 assesment(model_type='keras',
           model_path='../models/80000NN',
