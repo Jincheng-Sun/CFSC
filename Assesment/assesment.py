@@ -31,10 +31,11 @@ class Assesment_Module:
             self.y_pred_class = self.model.predict_classes(self.X_test)
             #   output: [[4.2632757e-05 8.5065442e-01 4.1671317e-02 2.6266620e-04 1.0736893e-01]
             #           ...
-            #         [3.6251792e-03 6.7478888e-02 3.6363685e-01 4.1335770e-03 5.6112546e-01]]
+            #           [3.6251792e-03 6.7478888e-02 3.6363685e-01 4.1335770e-03 5.6112546e-01]]
             ##  type: ndarray | shape: [num,cls] exp:[4000,5]
             #   For RoC
             self.y_pred_score = self.model.predict(self.X_test)
+            pass
 
     def _drawROC(self):
         # Plot RoC chart
