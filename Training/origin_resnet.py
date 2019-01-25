@@ -121,3 +121,42 @@ def ResBlock_type2(layer, filters, kernels, activation, dropout = 0, shift=False
     output = Activation(activation=activation)(output)
 
     return output
+def ResBlock_type3(layer, filters, kernels, activation, dropout = 0, shift=False, shrink=False):
+    # -BN-Act-Conv-BN-Act-Conv-
+    # ↳---------Conv----------↑
+    filter1, filter2 = filters
+    kernel1, kernel2 = kernels
+    shape = [1, 1]
+    if shrink:
+        shape = [2, 2]
+
+    if shift:
+        shortcut = Conv2D(filters=filter1,
+                          kernel_size=[kernel1, kernel1],
+                          kernel_initializer='random_uniform',
+                          # kernel_regularizer=regularizers.l2(0.01),
+                          strides=shape,
+                          padding='same')(layer)
+    else:
+        shortcut = layer
+    layer = Conv2D(filters=filter1,
+                   kernel_size=[kernel1, kernel1],
+                   kernel_initializer='random_uniform',
+                   # kernel_regularizer=regularizers.l2(0.01),
+                   strides=shape,
+                   padding='same')(layer)
+    layer = bn_relu(layer, dropout=dropout, conv_activation=activation)
+
+    layer = Conv2D(filters=filter2,
+                   kernel_size=[kernel2, kernel2],
+                   kernel_initializer='random_uniform',
+                   # kernel_regularizer=regularizers.l2(0.01),
+                   strides=[1, 1],
+                   padding='same')(layer)
+    layer = bn_relu(layer, dropout=dropout, conv_activation=activation)
+
+    output = add([shortcut, layer])
+
+    output = Activation(activation=activation)(output)
+
+    return output
