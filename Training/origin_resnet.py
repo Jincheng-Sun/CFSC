@@ -23,6 +23,11 @@ def bn_relu(layer, dropout=0, **params):
         layer = Dropout(dropout)(layer)
     return layer
 
+def global_average_pooling(layer, cls):
+    layer = Conv2D(cls, [1, 1])(layer)
+    layer = GlobalAveragePooling2D()(layer)
+    layer = Activation(activation='softmax')(layer)
+    return layer
 
 def ResBlock_type1(layer, filters, kernels, dropout, activation, shift=False, shrink=False):
     # -Conv-BN-Act-Conv-BN-Act-

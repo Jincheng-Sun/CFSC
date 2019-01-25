@@ -1,10 +1,10 @@
-from Training.origin_resnet import ResBlock_type1, ResBlock_type2
-from keras.layers import Input, Conv2D, BatchNormalization, Activation, AvgPool2D, Flatten, Dense
+from Training.origin_resnet import ResBlock_type1, ResBlock_type2,global_average_pooling
+from keras.layers import Input, Conv2D, BatchNormalization, Activation, AvgPool2D, Flatten, Dense,GlobalAveragePooling2D
 from keras import Model
 
 def Res50(num):
     input = Input(shape=[100, 100, 1])
-    conv1 = Conv2D(filters=64, kernel_size=7, strides=2, padding='same')(input)
+    conv1 = Conv2D(filters=64, kernel_size=[7,7], strides=[2,2], padding='same')(input)
     bn1 = BatchNormalization()(conv1)
     act1 = Activation('relu')(bn1)
 
@@ -44,11 +44,9 @@ def Res50(num):
     block16 = ResBlock_type2(layer=block15, filters=(512, 512, 2048), kernels=(1, 3, 1),
                              activation='relu', shift=False, shrink=False)
 
-    pool = AvgPool2D(pool_size=7)(block16)
-    flt = Flatten()(pool)
-    fc = Dense(num, activation='softmax', kernel_initializer='random_uniform')(flt)
-    model = Model(inputs=[input], outputs=[fc])
+    output = global_average_pooling(block16,5)
+    model = Model(inputs=[input], outputs=[output])
     model.summary()
     return model
 
-Res50(5)
+# Res50(5)

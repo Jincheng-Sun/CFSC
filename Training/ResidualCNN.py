@@ -229,7 +229,7 @@ def train(model):
     model.compile(loss='categorical_crossentropy',
                   optimizer=adam,
                   metrics=['accuracy'])
-    monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3, patience=5, verbose=1, mode='auto')
+    monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3, patience=3, verbose=1, mode='auto')
 
     model.fit(x_train, y_train,
               batch_size=50,
@@ -265,11 +265,13 @@ def test():
 
 # test()
 # model = Resnet_A(5)
-# train(model)
+from Training.Networks import Res50
+model = Res50(5)
+train(model)
 
 def conti_train():
     model = models.load_model('RCNN2')
     train(model)
-conti_train()
+# conti_train()
 # model = ResnetB()
 # train(model)
