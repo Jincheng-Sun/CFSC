@@ -10,15 +10,23 @@ class IModelAdaptor:
         pass
 
     @abstractmethod
+    def file_postfix(self):
+        pass
+
+    @abstractmethod
+    def serialize(self, out_obj):
+        pass
+
+    @abstractmethod
+    def deserialize(self, in_str, **kwargs):
+        pass
+
+    @abstractmethod
     def predict_score(self, in_obj):
         pass
 
     @abstractmethod
     def predict_classes(self, in_obj):
-        pass
-
-    @abstractmethod
-    def file_postfix(self):
         pass
 
     @abstractmethod
@@ -30,9 +38,6 @@ class IModelAdaptor:
         pass
 
     @abstractmethod
-    def serialize(self, out_obj):
+    def load_data(self, **kwargs):
         pass
 
-    @abstractmethod
-    def deserialize(self, in_str, **kwargs):
-        pass

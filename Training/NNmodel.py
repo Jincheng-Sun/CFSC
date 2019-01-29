@@ -45,7 +45,7 @@ def train_model():
               epochs=50,
               validation_data=(x_val, y_val),
               callbacks=[monitor])
-    model.save("../models/80000NN")
+    model.save("../models/80000NN.h5py")
     X_test = np.load('../data/test_x.npy')
     Y_test = np.load('../data/test_y.npy')
     score = accuracy_score(model.predict_classes(X_test), Y_test)

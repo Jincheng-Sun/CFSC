@@ -122,10 +122,10 @@ class ModelKerasAdaptor(IModelAdaptor):
     def serialize(self, out_obj):
         return json.dumps(out_obj.tolist())
 
-    def deserialize(self, in_str, **kwargs):
-        shape = kwargs['shape']
-        return self.convert_data(json.loads(in_str),shape=shape)
+    def deserialize(self, in_str = None, **kwargs):
+        # shape = kwargs['shape']
+        # return self.convert_data(json.loads(in_str),shape=shape)
 
         # return reshaped X_test, origin Y_test
 
-        # return np.reshape(np.load(kwargs['x_filepath']), newshape=kwargs['shape']), np.load(kwargs['y_filepath'])
+        return np.reshape(np.load(kwargs['x_filepath']), newshape=kwargs['shape']), np.load(kwargs['y_filepath'])
