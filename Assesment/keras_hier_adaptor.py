@@ -30,7 +30,7 @@ class Keras_hier_adaptor(Hierarchical_Adaptor):
         for l in range(self.layers):
             models = []
             for i in range(self.network_size[l]):
-                model_path = self.models_path.pop(0)
+                model_path = self.models_path.popleft()
                 model = ModelKerasAdaptor()
                 model.load(model_path)
                 models.append((l, i, model))
@@ -71,7 +71,7 @@ class Keras_hier_adaptor(Hierarchical_Adaptor):
                     pred_this_layer[i] = pred[pred_this_layer[i]][i]
 
             predicts.append(pred_this_layer)
-            pred = []
+            pred.clear()
 
         pred_list = []
         for i in range(len(predicts[0])):
