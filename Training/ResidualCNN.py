@@ -12,7 +12,8 @@ from keras.utils import np_utils
 from keras import regularizers
 from keras import optimizers
 from keras.callbacks import EarlyStopping
-
+import sys
+sys.path.append('/home/oem/Projects/CFSC/')
 
 def bn_relu(layer, dropout=0, **params):
     layer = BatchNormalization()(layer)
@@ -264,9 +265,9 @@ def test():
 
 
 # test()
-# model = Resnet_A(5)
+model = Resnet_A(5)
 from Training.Networks import Res50
-model = Res50(5)
+# model = Res50(5)
 train(model)
 
 def conti_train():
