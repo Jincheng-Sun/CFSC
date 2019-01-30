@@ -1,11 +1,12 @@
 import csv
+import sys
+sys.path.append('/home/oem/Projects/CFSC/')
 import re
 import jieba
 import numpy as np
 from gensim.models import Word2Vec
 from DataCleaning import cleaning as cl
 from collections import Counter
-
 file1 = '../data/80000_trainset.csv'
 file2 = '../models/CBOW.model'
 file3 = '../data/train_x.npy'
