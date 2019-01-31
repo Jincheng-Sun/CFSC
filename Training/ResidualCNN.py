@@ -213,12 +213,14 @@ def train(model):
     num = 80000
     X_train = np.load('../data/train_x.npy')[0:num]
     Y_train = np.load('../data/train_y.npy')[0:num]
+    Y_train = Y_train[:, 1]
     X_train = np.reshape(X_train, [num, 100, 100, 1])
     x_train, x_val, y_train, y_val = train_test_split(X_train, Y_train, test_size=0.1, random_state=42)
     y_train = pd.DataFrame(y_train)[0]
     y_val = pd.DataFrame(y_val)[0]
     # one-hot，5 category
     y_labels = list(y_train.value_counts().index)
+    y_labels = list(range(157))
     # y_labels = np.unique(y_train)
     le = preprocessing.LabelEncoder()
     le.fit(y_labels)
@@ -245,6 +247,7 @@ def train(model):
     Y_test = np.load('../data/test_y.npy')
     # X_train reshape to [40000,100,100]
     X_test = np.reshape(X_test, [4000, 100, 100, 1])
+    Y_test = Y_test[:,1]
     score = model.predict(X_test)
     score = np.argmax(score, axis=1)
     score = accuracy_score(score, Y_test)
@@ -265,7 +268,7 @@ def test():
 
 
 # test()
-model = Resnet_A(5)
+model = Resnet_A(157)
 from Training.Networks import Res50
 # model = Res50(5)
 train(model)
