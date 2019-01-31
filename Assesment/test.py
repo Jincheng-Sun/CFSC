@@ -48,18 +48,18 @@ import pandas as pd
 # # c = K.hierarchical_acc(K, pred_list=a, real_list=b, n=1)
 # # print(c)
 
-from Training.NN_training_adaptor import NN_training_adaptor
-
-nadaptor = NN_training_adaptor()
-nadaptor.load_data('../data/train_x.npy','../data/train_y.npy','../data/test_x.npy','../data/test_y.npy')
-label_list = [0,1,2,3,4]
-path_list = ['../models/NN10','../models/NN11','../models/NN12','../models/NN13','../models/NN14']
-for class_,path_ in zip(label_list,path_list):
-    num_labels, x_train, y_train, x_val, y_val, Y_test = nadaptor.create_dataset(expand_class=class_)
-    # model = nadaptor.network(cls_num=num_labels)
-    # model = nadaptor.train_model(model=model, X_train=x_train, Y_train=y_train, x_val=x_val, y_val=y_val, save_path=path_)
-    model = nadaptor.load_model('../models/NN10')
-    nadaptor.assesment(model=model,X_test=nadaptor.X_test,Y_test=Y_test)
+# from Training.NN_training_adaptor import NN_training_adaptor
+#
+# nadaptor = NN_training_adaptor()
+# nadaptor.load_data('../data/train_x.npy','../data/train_y.npy','../data/test_x.npy','../data/test_y.npy')
+# label_list = [0,1,2,3,4]
+# path_list = ['../models/NN10','../models/NN11','../models/NN12','../models/NN13','../models/NN14']
+# for class_,path_ in zip(label_list,path_list):
+#     num_labels, x_train, y_train, x_val, y_val, Y_test = nadaptor.create_dataset(expand_class=class_)
+#     # model = nadaptor.network(cls_num=num_labels)
+#     # model = nadaptor.train_model(model=model, X_train=x_train, Y_train=y_train, x_val=x_val, y_val=y_val, save_path=path_)
+#     model = nadaptor.load_model('../models/NN10')
+#     nadaptor.assesment(model=model,X_test=nadaptor.X_test,Y_test=Y_test)
 # import pandas as pd
 # from sklearn.model_selection import train_test_split
 # from sklearn import preprocessing
@@ -83,3 +83,26 @@ for class_,path_ in zip(label_list,path_list):
 # num_labels = len(y_labels)
 # y_train = to_categorical(y_train.map(lambda x: le.transform([x])[0]), num_labels)
 # pass
+
+
+from Assesment.keras_hier_adaptor import Keras_hier_adaptor
+from Training.NN_training_adaptor import NN_training_adaptor
+
+def process_data(input,bias):
+    for i in range(len(input)):
+        input[i][1] = input[i][1]+input[i][0]*1000+bias
+
+models = ['../models/NN00', '../models/NN10', '../models/NN11', '../models/NN12', '../models/NN13', '../models/NN14']
+asses = Keras_hier_adaptor()
+asses.init_params('h5', network_size=[1, 5])
+asses.load_data(x_file_path='../data/test_x.npy', y_file_path='../data/test_y.npy',models_path=models)
+models = asses.build_network()
+output = asses.fit_data2(models)
+y_data = asses.Y_data
+process_data(y_data)
+process_data(y_data,0)
+process_data(output,1)
+x=asses.hierarchical_acc(output,y_data)
+
+
+

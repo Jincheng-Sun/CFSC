@@ -11,6 +11,10 @@ class Training_adaptor:
         pass
 
     @abstractmethod
+    def label_data(self, **kwargs):
+        pass
+
+    @abstractmethod
     def create_dataset(self, **kwargs):
         pass
 
@@ -19,13 +23,13 @@ class Training_adaptor:
         pass
 
     @abstractmethod
-    def load_model(self, model):
+    def load_model(self, model_path):
         pass
 
     @abstractmethod
-    def train_model(self, model, X_train, Y_train, **kwargs):
+    def train_model(self, X_train, Y_train, **kwargs):
         pass
 
     @abstractmethod
-    def assesment(self, model, X_test, Y_test):
+    def assesment(self, X_test, Y_test):
         pass
