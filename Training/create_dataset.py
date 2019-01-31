@@ -15,6 +15,7 @@ file6 = '../data/test_x.npy'
 file7 = '../data/test_y.npy'
 
 file8 = '../data/labels.txt'
+file8_all = '../data/all_labels.txt'
 
 file9 = '../data/train_x_ex.npy'
 file10 = '../data/train_y_ex.npy'
@@ -22,11 +23,16 @@ file11 = '../data/test_x_ex.npy'
 file12 = '../data/test_y_ex.npy'
 # def label_dic():
 labels = {}
+all_labels = {}
 file = open(file8,'r',encoding='gb18030')
-count = 0
+
 for line in file:
-    count+=1
     labels[line.split(',')[0]] = int(line.split(',')[1])
+
+file_all = open(file8_all,'r',encoding='gb18030')
+for line in file_all:
+    all_labels[line.split(',')[0]] = int(line.split(',')[1])
+
 
 def stopwords(file):
     stopwords = [line[0:-1] for line in open(file, 'r', encoding='utf-8').readlines()]
@@ -97,7 +103,7 @@ def create(input,output1,output2,stopword = False):
             vector = np.append(vector, pendding)
             # vector = vector.tolist()
         dataset_x.append(vector)
-        dataset_y.append(labels[employer])
+        dataset_y.append([labels[employer],all_labels[employer]])
         # print(employer)
         # print(labels[employer])
     np.save(output1, dataset_x)

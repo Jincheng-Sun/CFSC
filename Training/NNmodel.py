@@ -17,23 +17,25 @@ def train_model():
     num = 80000
     X_train = np.load('../data/train_x.npy')[0:num]
     Y_train = np.load('../data/train_y.npy')[0:num]
+    Y_train = Y_train[:,1]
     x_train, x_val, y_train, y_val = train_test_split(X_train, Y_train, test_size=0.2, random_state=42)
     y_train = pd.DataFrame(y_train)[0]
     y_val = pd.DataFrame(y_val)[0]
     # one-hot，5 category
     y_labels = list(y_train.value_counts().index)
+    y_labels = list(range(157))
     # y_labels = np.unique(y_train)
     le = preprocessing.LabelEncoder()
     le.fit(y_labels)
     num_labels = len(y_labels)
-    y_train = to_categorical(y_train.map(lambda x: le.transform([x])[0]), num_labels)
-    y_val = to_categorical(y_val.map(lambda x: le.transform([x])[0]), num_labels)
+    y_train = to_categorical(y_train.map(lambda x: le.transform([x])[0]), 157)
+    y_val = to_categorical(y_val.map(lambda x: le.transform([x])[0]), 157)
     model = Sequential()
     model.add(Dense(1024, input_shape=(x_train.shape[1],), activation='relu'))
     model.add(Dropout(0.2))
     model.add(Dense(256, activation='relu'))
     model.add(Dropout(0.2))
-    model.add(Dense(5, activation='softmax'))
+    model.add(Dense(157, activation='softmax'))
     model.summary()
     model.compile(loss='categorical_crossentropy',
                   optimizer='adam',
@@ -48,6 +50,7 @@ def train_model():
     model.save("../models/80000NN.h5py")
     X_test = np.load('../data/test_x.npy')
     Y_test = np.load('../data/test_y.npy')
+    Y_test = Y_test[:,1]
     score = accuracy_score(model.predict_classes(X_test), Y_test)
 
     print(score)
