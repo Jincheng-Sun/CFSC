@@ -255,23 +255,26 @@ def train(model):
     print(score)
 
 def test():
-    model = models.load_model('../models/0.8278RCNN')
+    model = models.load_model('../models/RCNN')
     X_test = np.load('../data/test_x.npy')
     Y_test = np.load('../data/test_y.npy')
     # X_train reshape to [40000,100,100]
     X_test = np.reshape(X_test, [4000, 100, 100, 1])
+    Y_test = Y_test[:,1]
     score = model.predict(X_test)
     score = np.argmax(score, axis=1)
+    print(score)
+    print(Y_test)
     score = accuracy_score(score, Y_test)
     print(score)
 
 
 
-# test()
-model = Resnet_A(157)
-from Training.Networks import Res50
+test()
+#model = Resnet_A(157)
+#from Training.Networks import Res50
 # model = Res50(5)
-train(model)
+#train(model)
 
 def conti_train():
     model = models.load_model('RCNN2')
