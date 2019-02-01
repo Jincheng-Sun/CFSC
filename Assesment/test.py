@@ -99,7 +99,7 @@ asses.load_data(x_file_path='../data/test_x.npy', y_file_path='../data/test_y.np
 models = asses.build_network()
 output = asses.fit_data2(models)
 y_data = asses.Y_data
-process_data(y_data)
+# process_data(y_data)
 process_data(y_data,0)
 process_data(output,1)
 x=asses.hierarchical_acc(output,y_data)

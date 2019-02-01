@@ -102,6 +102,15 @@ class Keras_hier_adaptor(Hierarchical_Adaptor):
         hP = INTER / PRED
         hR = INTER / REAL
         Fn = ((n * n + 1) * hP * hR) / (n * n * hP + hR)
-        return hP, hR, Fn
+
+        count_all = 0
+        count = 0
+        for pred, real in zip(pred_list, real_list):
+            if pred[1]==real[1]:
+                count +=1
+            count_all +=1
+        acc = count/count_all
+
+        return hP, hR, Fn,acc
 
 

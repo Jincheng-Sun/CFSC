@@ -105,10 +105,12 @@ class ModelKerasAdaptor(IModelAdaptor):
         # print metrics
         print(classification_report(y_true=Y_test,
                                     y_pred=y_pred_class,
-                                    target_names=list(map(lambda x: 'class %d' % x, classes))))
+                                    ))
         # print confusion metrics
         print("Confusion metrics:\n")
-        print(confusion_matrix(y_true=Y_test, y_pred=y_pred_class))
+        confusion = confusion_matrix(y_true=Y_test, y_pred=y_pred_class)
+        print(confusion)
+        return confusion
 
     def convert_data(self,dict,shape):
         # take dictionary and output ndarray
@@ -129,3 +131,7 @@ class ModelKerasAdaptor(IModelAdaptor):
         # return reshaped X_test, origin Y_test
 
         return np.reshape(np.load(kwargs['x_filepath']), newshape=kwargs['shape']), np.load(kwargs['y_filepath'])
+
+    def load_data(self, **kwargs):
+        self.X_data = np.load(kwargs['x_data'])
+        self.Y_data = np.load(kwargs['y_data'])

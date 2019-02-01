@@ -23,7 +23,7 @@ file10 = '../data/train_y_ex.npy'
 file11 = '../data/test_x_ex.npy'
 file12 = '../data/test_y_ex.npy'
 # def label_dic():
-def conv_label(**kwargs):
+def conv_label(is_expanded, **kwargs):
     labels_file = kwargs['labels_file']
     all_labels_file = kwargs['all_labels']
     labels = {}
@@ -51,10 +51,14 @@ def conv_label(**kwargs):
             x += 1
 
     dict = {list[i][2]: [list[i][0], list[i][1]] for i in range(len(list))}
-    return dict
-
-labels = conv_label(labels_file=file8,all_labels=file8_all)
-
+    if is_expanded:
+        return all_labels
+    else:
+        return dict
+# for hier models
+# labels = conv_label(labels_file=file8,all_labels=file8_all)
+# for expanded labels
+labels = conv_label(labels_file=file8,all_labels=file8_all,is_expanded=True)
 def stopwords(file):
     stopwords = [line[0:-1] for line in open(file, 'r', encoding='utf-8').readlines()]
     return set(stopwords)
