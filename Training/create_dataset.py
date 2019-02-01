@@ -23,18 +23,42 @@ file10 = '../data/train_y_ex.npy'
 file11 = '../data/test_x_ex.npy'
 file12 = '../data/test_y_ex.npy'
 # def label_dic():
-labels = {}
-all_labels = {}
-file = open(file8,'r',encoding='gb18030')
+def conv_label(is_expanded, **kwargs):
+    labels_file = kwargs['labels_file']
+    all_labels_file = kwargs['all_labels']
+    labels = {}
+    all_labels = {}
+    file = open(labels_file, 'r', encoding='gb18030')
+    for line in file:
+        labels[line.split(',')[0]] = int(line.split(',')[1])
+    file_all = open(all_labels_file, 'r', encoding='gb18030')
+    for line in file_all:
+        all_labels[line.split(',')[0]] = int(line.split(',')[1])
+    list = []
+    for line in labels:
+        list.append([labels[line], all_labels[line], line])
+    list.sort()
+    key = 0
+    x = 1
+    for i in range(len(list)):
+        if list[i][0] == key:
+            list[i][1] = x
+            x += 1
+        else:
+            key += 1
+            x = 1
+            list[i][1] = x
+            x += 1
 
-for line in file:
-    labels[line.split(',')[0]] = int(line.split(',')[1])
-
-file_all = open(file8_all,'r',encoding='gb18030')
-for line in file_all:
-    all_labels[line.split(',')[0]] = int(line.split(',')[1])
-
-
+    dict = {list[i][2]: [list[i][0], list[i][1]] for i in range(len(list))}
+    if is_expanded:
+        return all_labels
+    else:
+        return dict
+# for hier models
+# labels = conv_label(labels_file=file8,all_labels=file8_all)
+# for expanded labels
+labels = conv_label(labels_file=file8,all_labels=file8_all,is_expanded=True)
 def stopwords(file):
     stopwords = [line[0:-1] for line in open(file, 'r', encoding='utf-8').readlines()]
     return set(stopwords)
@@ -104,7 +128,7 @@ def create(input,output1,output2,stopword = False):
             vector = np.append(vector, pendding)
             # vector = vector.tolist()
         dataset_x.append(vector)
-        dataset_y.append([labels[employer],all_labels[employer]])
+        dataset_y.append(labels[employer])
         # print(employer)
         # print(labels[employer])
     np.save(output1, dataset_x)

@@ -30,7 +30,7 @@ class Keras_hier_adaptor(Hierarchical_Adaptor):
         for l in range(self.layers):
             models = []
             for i in range(self.network_size[l]):
-                model_path = self.models_path.popleft()
+                model_path = self.models_path.pop(0)
                 model = ModelKerasAdaptor()
                 model.load(model_path)
                 models.append((l, i, model))
@@ -59,19 +59,21 @@ class Keras_hier_adaptor(Hierarchical_Adaptor):
         # Return                                       exp:[[4,121],[1,6],[2,35],[2,33]...]
         predicts = []
         pred = []
+        pred_this_layer = []
         for models in models_all:
-            if models == 0:
-                pred_this_layer = models.predict_classes(self.X_data)
-
-            else:
+            layer_index = models[0][0]
+            if layer_index == 0:
+                predicts.append(models[0][2].predict_classes(self.X_data))
+            elif layer_index !=0:
                 for model in models:
-                    pred.append(model.predict_classes(self.X_data))
+                    pred.append(model[2].predict_classes(self.X_data))
 
-                for i in range(len(pred_this_layer)):
-                    pred_this_layer[i] = pred[pred_this_layer[i]][i]
+                for i in range(len(predicts[layer_index-1])):
+                    pred_this_layer.append(pred[predicts[layer_index-1][i]][i])
+                predicts.append(pred_this_layer)
 
-            predicts.append(pred_this_layer)
             pred.clear()
+            pred_this_layer = []
 
         pred_list = []
         for i in range(len(predicts[0])):
@@ -100,6 +102,15 @@ class Keras_hier_adaptor(Hierarchical_Adaptor):
         hP = INTER / PRED
         hR = INTER / REAL
         Fn = ((n * n + 1) * hP * hR) / (n * n * hP + hR)
-        return hP, hR, Fn
+
+        count_all = 0
+        count = 0
+        for pred, real in zip(pred_list, real_list):
+            if pred[1]==real[1]:
+                count +=1
+            count_all +=1
+        acc = count/count_all
+
+        return hP, hR, Fn,acc
 
 

@@ -17,7 +17,7 @@ def train_model():
     num = 80000
     X_train = np.load('../data/train_x.npy')[0:num]
     Y_train = np.load('../data/train_y.npy')[0:num]
-    Y_train = Y_train[:,1]
+    # Y_train = Y_train[:,1]
     x_train, x_val, y_train, y_val = train_test_split(X_train, Y_train, test_size=0.2, random_state=42)
     y_train = pd.DataFrame(y_train)[0]
     y_val = pd.DataFrame(y_val)[0]
