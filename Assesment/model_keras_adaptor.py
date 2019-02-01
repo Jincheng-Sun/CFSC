@@ -28,7 +28,12 @@ class ModelKerasAdaptor(IModelAdaptor):
 
     def predict_classes(self, in_obj):
         # predict classes
-        return self.classifier_model.predict_classes(in_obj)
+        try:
+            pred = self.classifier_model.predict_classes(in_obj)
+        except:
+            pred = self.classifier_model.predict(in_obj)
+            pred = np.argmax(pred, axis = 1)
+        return pred
 
     def file_postfix(self):
         # return model type
@@ -99,6 +104,10 @@ class ModelKerasAdaptor(IModelAdaptor):
         n_classes = np.max(Y_test) + 1
         classes = np.arange(n_classes).tolist()
         # accuracy
+        try:
+            Y_test = Y_test[:,1]
+        except:
+            pass
         self.accuracy = accuracy_score(y_true=Y_test, y_pred=y_pred_class)
         print("Accuracy: " + str(self.accuracy) + '\n')
         print("Classification report:\n")
@@ -135,3 +144,7 @@ class ModelKerasAdaptor(IModelAdaptor):
     def load_data(self, **kwargs):
         self.X_data = np.load(kwargs['x_data'])
         self.Y_data = np.load(kwargs['y_data'])
+        try:
+            self.X_data = np.reshape(self.X_data, kwargs['shape'])
+        except:
+            pass
