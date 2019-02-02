@@ -58,7 +58,7 @@ def conv_label(is_expanded, **kwargs):
 # for hier models
 # labels = conv_label(labels_file=file8,all_labels=file8_all)
 # for expanded labels
-labels = conv_label(labels_file=file8,all_labels=file8_all,is_expanded=True)
+labels = conv_label(labels_file=file8,all_labels=file8_all,is_expanded=False)
 def stopwords(file):
     stopwords = [line[0:-1] for line in open(file, 'r', encoding='utf-8').readlines()]
     return set(stopwords)

@@ -1,5 +1,5 @@
-# from Assesment.model_keras_adaptor import ModelKerasAdaptor
-# from Assesment.keras_hier_adaptor import Keras_hier_adaptor
+# from Assessment.model_keras_adaptor import ModelKerasAdaptor
+# from Assessment.keras_hier_adaptor import Keras_hier_adaptor
 import numpy as np
 import pandas as pd
 # kerasmodel = ModelKerasAdaptor()
@@ -85,7 +85,7 @@ import pandas as pd
 # pass
 
 
-from Assesment.keras_hier_adaptor import Keras_hier_adaptor
+from Assessment.keras_hier_adaptor import Keras_hier_adaptor
 from Training.NN_training_adaptor import NN_training_adaptor
 
 def process_data(input,bias):

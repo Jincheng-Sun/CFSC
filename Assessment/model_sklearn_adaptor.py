@@ -1,5 +1,5 @@
 from sklearn.externals import joblib
-from Assesment.model_adaptor import IModelAdaptor
+from Assessment.model_adaptor import IModelAdaptor
 import json
 from itertools import cycle
 import matplotlib.pyplot as plt

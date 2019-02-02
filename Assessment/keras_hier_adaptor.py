@@ -1,5 +1,5 @@
-from Assesment.model_keras_adaptor import ModelKerasAdaptor
-from Assesment.hierarchical_adaptor import Hierarchical_Adaptor
+from Assessment.model_keras_adaptor import ModelKerasAdaptor
+from Assessment.hierarchical_adaptor import Hierarchical_Adaptor
 import numpy as np
 
 

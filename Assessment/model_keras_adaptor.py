@@ -1,4 +1,4 @@
-from Assesment.model_adaptor import IModelAdaptor
+from Assessment.model_adaptor import IModelAdaptor
 import json
 from itertools import cycle
 import matplotlib.pyplot as plt
@@ -105,7 +105,7 @@ class ModelKerasAdaptor(IModelAdaptor):
         classes = np.arange(n_classes).tolist()
         # accuracy
         try:
-            Y_test = Y_test[:,1]
+            Y_test = Y_test[:,0]
         except:
             pass
         self.accuracy = accuracy_score(y_true=Y_test, y_pred=y_pred_class)
@@ -119,6 +119,17 @@ class ModelKerasAdaptor(IModelAdaptor):
         print("Confusion metrics:\n")
         confusion = confusion_matrix(y_true=Y_test, y_pred=y_pred_class)
         print(confusion)
+        # PRED = []
+        # REAL = []
+        # INTER = []
+        # for i in range(confusion.shape[0]):
+        #     pred = sum(confusion[:,i])
+        #     real = sum(confusion[i])
+        #     inter = confusion[i,i]
+        #     PRED.append(pred)
+        #     REAL.append(real)
+        #     INTER.append(inter)
+        # return PRED,REAL,INTER
         return confusion
 
     def convert_data(self,dict,shape):
