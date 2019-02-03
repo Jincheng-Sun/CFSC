@@ -1,5 +1,5 @@
 from sklearn.externals import joblib
-
+from new_assessment.model_adaptor import ModelAdaptor
 
 class SklearnModelAdaptor(ModelAdaptor):
 	"""docstring for SklearnModelAdaptor"""
@@ -10,21 +10,21 @@ class SklearnModelAdaptor(ModelAdaptor):
 		self.x_file_path = x_file_path
 
 
-	def get_pred_score():
+	def get_pred_score(self):
 		"""
 		classifiers = OneVsRestClassifier(BernoulliNB(alpha=1, fit_prior=True))
 		Y_score = classifiers.fit(X_train, Y_train).predict_proba(X_test)
 		"""
-		X_test = _get_X(self)
+		X_test = get_X(self)
 		model = joblib.load(self.onvsrest_model_file_path)
 		return model.predict_proba(X_test)
 	
 	
 	def get_pred_class(self):
-		X_test = _get_X()
+		X_test = get_X(self)
 		model = joblib.load(self.model_file_path)
 		return model.predict(X_test)
 
-
-	def get_Y():
+    def get_X(self):
+        pass
 		

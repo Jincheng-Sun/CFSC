@@ -1,6 +1,6 @@
 from keras import models
 import numpy as np
-
+from new_assessment.model_adaptor import ModelAdaptor
 
 class KerasModelAdaptor(ModelAdaptor):
 	"""docstring for SklearnModelAdaptor"""
@@ -16,11 +16,13 @@ class KerasModelAdaptor(ModelAdaptor):
 		return self.model.predict(x_test)
 
 	
-	def get_pred_class():
+	def get_pred_class(self):
 		x_test = np.reshape(np.load(self.x_file_path), newshape=self.shape)
 		return self.model.predict_classes(x_test)
 
 
 	def get_Y(self):
-		return np.load(self.y_file_path)
+		first_layer_label = np.load(self.y_file_path)
+		first_layer_label = first_layer_label[:,0]
+		return first_layer_label
 		

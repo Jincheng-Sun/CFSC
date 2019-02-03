@@ -38,7 +38,7 @@ class NN_training_adaptor(Training_adaptor):
             num_labels = Y_label.max() + 1
         else:
             for line in y_data:
-                Y_label.append(line[layer] if line[layer - 1] == expand else 0)
+                Y_label.append(line[layer] if line[layer - 1] == expand else -1)
             Y_label = np.array(Y_label)
             X_train = x_data
             Y_train = Y_label
@@ -50,9 +50,9 @@ class NN_training_adaptor(Training_adaptor):
             X_train_new = []
             Y_train_new = []
             for x, y in zip(X_train, Y_train):
-                if y != 0:
+                if y != -1:
                     X_train_new.append(x)
-                    Y_train_new.append(y - 1)
+                    Y_train_new.append(y)
             X_train = np.array(X_train_new)
             Y_train = np.array(Y_train_new)
 

@@ -39,14 +39,14 @@ def conv_label(is_expanded, **kwargs):
         list.append([labels[line], all_labels[line], line])
     list.sort()
     key = 0
-    x = 1
+    x = 0
     for i in range(len(list)):
         if list[i][0] == key:
             list[i][1] = x
             x += 1
         else:
             key += 1
-            x = 1
+            x = 0
             list[i][1] = x
             x += 1
 
@@ -58,12 +58,13 @@ def conv_label(is_expanded, **kwargs):
 # for hier models
 # labels = conv_label(labels_file=file8,all_labels=file8_all)
 # for expanded labels
-labels = conv_label(labels_file=file8,all_labels=file8_all,is_expanded=False)
+
 def stopwords(file):
     stopwords = [line[0:-1] for line in open(file, 'r', encoding='utf-8').readlines()]
     return set(stopwords)
 
-def create(input,output1,output2,stopword = False):
+def create(input,output1,output2,stopword = False,is_expanded = False):
+    labels = conv_label(labels_file=file8, all_labels=file8_all, is_expanded=is_expanded)
     if stopword:
         stopword_list = stopwords('../data/baidu+chuanda.txt')
     else:
@@ -137,7 +138,7 @@ def create(input,output1,output2,stopword = False):
 # label_dic()
 
 #
-create(file5,file6,file7,stopword=True)
-create(file1,file3,file4,stopword=True)
+create(file5,file6,file7,stopword=True,is_expanded=False)
+# create(file1,file3,file4,stopword=True)
 
 

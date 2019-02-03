@@ -1,4 +1,4 @@
-from model_adaptor import ModelAdaptor
+from new_assessment.model_adaptor import ModelAdaptor
 import numpy as np
 from scipy import interp
 from itertools import cycle
@@ -11,25 +11,22 @@ import os
 
 
 class AssessModel:
-	"""
-	model_adaptor: model specific adaptor
-	classes: list of all classes
-	y_pred_score: n * classes_num predict score
 
-	"""
-	def __init__(self, model_adaptor, classes):
-		self.model_adaptor = model_adaptor
-		self.classes = classes
+    def __init__(self, model_adaptor, classes):
+        self.model_adaptor = model_adaptor
+        self.classes = classes
 
 
-	def draw_roc(self):
-		y_pred_score = self.model_adaptor.get_pred_score()
-		Y_test = self.model_adaptor.get_Y()
+    def draw_roc(self):
+        y_pred_score = self.model_adaptor.get_pred_score()
+        Y_test = self.model_adaptor.get_Y()
 
-		Y_test_onehot = label_binarize(Y_test, classes=self.classes)
-		n_classes = len(classes)
+        n_classes = np.max(Y_test) + 1
+        classes = np.arange(n_classes).tolist()
+        Y_test_onehot = label_binarize(Y_test, classes=classes)
+        n_classes = len(classes)
 
-		fpr = dict()
+        fpr = dict()
         tpr = dict()
         roc_auc = dict()
         # change threshold to collect fpr,tpr dots and AUC for each classes
@@ -78,11 +75,11 @@ class AssessModel:
         plt.show()
 
 
-	def metrics(self):
-		Y_test = self.model_adaptor.get_Y()
-		y_pred_class = self.model_adaptor.get_pred_class()
+    def metrics(self):
+        Y_test = self.model_adaptor.get_Y()
+        y_pred_class = self.model_adaptor.get_pred_class()
 
-		# accuracy
+        # accuracy
         self.accuracy = accuracy_score(y_true=Y_test, y_pred=y_pred_class)
         print("Accuracy: " + str(self.accuracy) + '\n')
         print("Classification report:\n")
