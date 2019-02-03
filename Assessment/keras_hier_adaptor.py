@@ -4,18 +4,8 @@ import numpy as np
 
 
 class Keras_hier_adaptor(Hierarchical_Adaptor):
-    def __init__(self):
-        super().__init__()
 
-    def init_params(self, model_type, network_size):
-        # model_type: model type                        Type: String    exp: '.h5py'
-        # network_size: how many models for each layer  Type: List      exp: [1,5]
-        # layer: how many layers                        Type: Int       exp: 2
-        self.model_type = model_type
-        self.network_size = network_size
-        self.layers = len(network_size)
-
-    def load_data(self, x_file_path, y_file_path, models_path):
+    def __init__(self, models_path, x_file_path, y_file_path, network_size):
         # x(y)_file_path: test data path                Type: String
         # models_path: list of model paths              Type: String List   exp:['aaa.h5py','bbb.h5py'...]
         # Y_data label changed into label path          exp:[124,6,65,33]-->[[4,124],[1,6],[3,65],[2,33]]
@@ -23,6 +13,10 @@ class Keras_hier_adaptor(Hierarchical_Adaptor):
         self.X_data = np.load(x_file_path)
         self.Y_data = np.load(y_file_path)
         self.models_path = models_path
+        # network_size: how many models for each layer  Type: List      exp: [1,5]
+        # layer: how many layers                        Type: Int       exp: 2
+        self.network_size = network_size
+        self.layers = len(network_size)
 
     def build_network(self):
         # instantiate models for each layer, return a list of models
@@ -37,24 +31,7 @@ class Keras_hier_adaptor(Hierarchical_Adaptor):
             models_all.append(models)
         return models_all
 
-    def fit_data(self, models_all):
-        # Fit data ONE BY ONE, first goes through 1st layer, get predicted label and then decide
-        # which is next model to fit data in
-        # Returns list of predicted label path          exp:[[4,121],[1,6],[2,35],[2,33]...]
-        predicts = []
-        for data in self.X_data:
-            # only for full tree of models
-            model_index = 0
-            predict = []
-            for l in self.layers:
-                model = models_all[model_index]
-                l_pred = model.predict_classes(data)
-                model_index = l_pred
-                predict.append(l_pred)
-            predicts.append(predict)
-        return predicts
-
-    def fit_data2(self, models_all):
+    def predict(self, models_all):
         # Fit ALL data into ALL models, and returns list of predicted label path
         # Return                                       exp:[[4,121],[1,6],[2,35],[2,33]...]
         predicts = []
@@ -64,12 +41,12 @@ class Keras_hier_adaptor(Hierarchical_Adaptor):
             layer_index = models[0][0]
             if layer_index == 0:
                 predicts.append(models[0][2].predict_classes(self.X_data))
-            elif layer_index !=0:
+            elif layer_index != 0:
                 for model in models:
                     pred.append(model[2].predict_classes(self.X_data))
 
-                for i in range(len(predicts[layer_index-1])):
-                    pred_this_layer.append(pred[predicts[layer_index-1][i]][i])
+                for i in range(len(predicts[layer_index - 1])):
+                    pred_this_layer.append(pred[predicts[layer_index - 1][i]][i])
                 predicts.append(pred_this_layer)
 
             pred.clear()
@@ -84,33 +61,23 @@ class Keras_hier_adaptor(Hierarchical_Adaptor):
 
         return pred_list
 
-    def hierarchical_acc(self, pred_list, real_list, n = 1):
-        # pred_list: list of predicted label path       exp:[[4,121],[1,6],[2,36],[2,33]...]
-        # real_list: list of real label path            exp:[[4,124],[1,6],[3,65],[2,33]...]
-        # Returns hP, hR, F-n score                     dtype: float
-        INTER = []
-        PRED = []
-        REAL = []
-        for pred, real in zip(pred_list, real_list):
-            inter = [i for i in pred if i in real]
-            INTER.append(len(inter))
-            PRED.append(len(pred))
-            REAL.append(len(real))
-        INTER = float(sum(INTER))
-        PRED = float(sum(PRED))
-        REAL = float(sum(REAL))
-        hP = INTER / PRED
-        hR = INTER / REAL
-        Fn = ((n * n + 1) * hP * hR) / (n * n * hP + hR)
 
-        count_all = 0
-        count = 0
-        for pred, real in zip(pred_list, real_list):
-            if pred[1]==real[1]:
-                count +=1
-            count_all +=1
-        acc = count/count_all
 
-        return hP, hR, Fn,acc
+    # def fit_data(self, models_all):
+    #     # Fit data ONE BY ONE, first goes through 1st layer, get predicted label and then decide
+    #     # which is next model to fit data in
+    #     # Returns list of predicted label path          exp:[[4,121],[1,6],[2,35],[2,33]...]
+    #     predicts = []
+    #     for data in self.X_data:
+    #         # only for full tree of models
+    #         model_index = 0
+    #         predict = []
+    #         for l in self.layers:
+    #             model = models_all[model_index]
+    #             l_pred = model.predict_classes(data)
+    #             model_index = l_pred
+    #             predict.append(l_pred)
+    #         predicts.append(predict)
+    #     return predicts
 
 

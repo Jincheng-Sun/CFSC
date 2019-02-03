@@ -88,7 +88,7 @@ import pandas as pd
 from Assessment.keras_hier_adaptor import Keras_hier_adaptor
 from Training.NN_training_adaptor import NN_training_adaptor
 
-def process_data(input,bias):
+def sparse_label(input, bias):
     for i in range(len(input)):
         input[i][1] = input[i][1]+input[i][0]*1000+bias
 
@@ -97,11 +97,11 @@ asses = Keras_hier_adaptor()
 asses.init_params('h5', network_size=[1, 5])
 asses.load_data(x_file_path='../data/test_x.npy', y_file_path='../data/test_y.npy',models_path=models)
 models = asses.build_network()
-output = asses.fit_data2(models)
+output = asses.predict(models)
 y_data = asses.Y_data
 # process_data(y_data)
-process_data(y_data,0)
-process_data(output,1)
+sparse_label(y_data, 0)
+sparse_label(output, 1)
 x=asses.hierarchical_acc(output,y_data)
 
 

@@ -32,7 +32,7 @@ class ModelKerasAdaptor(IModelAdaptor):
             pred = self.classifier_model.predict_classes(in_obj)
         except:
             pred = self.classifier_model.predict(in_obj)
-            pred = np.argmax(pred, axis = 1)
+            pred = np.argmax(pred, axis=1)
         return pred
 
     def file_postfix(self):
@@ -105,7 +105,7 @@ class ModelKerasAdaptor(IModelAdaptor):
         classes = np.arange(n_classes).tolist()
         # accuracy
         try:
-            Y_test = Y_test[:,0]
+            Y_test = Y_test[:, 0]
         except:
             pass
         self.accuracy = accuracy_score(y_true=Y_test, y_pred=y_pred_class)
@@ -132,7 +132,7 @@ class ModelKerasAdaptor(IModelAdaptor):
         # return PRED,REAL,INTER
         return confusion
 
-    def convert_data(self,dict,shape):
+    def convert_data(self, dict, shape):
         # take dictionary and output ndarray
         X_test = []
         Y_test = []
@@ -144,7 +144,7 @@ class ModelKerasAdaptor(IModelAdaptor):
     def serialize(self, out_obj):
         return json.dumps(out_obj.tolist())
 
-    def deserialize(self, in_str = None, **kwargs):
+    def deserialize(self, in_str=None, **kwargs):
         # shape = kwargs['shape']
         # return self.convert_data(json.loads(in_str),shape=shape)
 
