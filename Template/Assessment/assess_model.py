@@ -12,9 +12,8 @@ import os
 
 class AssessModel:
 
-    def __init__(self, model_adaptor, classes):
+    def __init__(self, model_adaptor):
         self.model_adaptor = model_adaptor
-        self.classes = classes
         self.pred_score = None
         self.pred_class = None
         self.Y_data = None
@@ -91,7 +90,7 @@ class AssessModel:
         # print metrics
         print(classification_report(y_true=Y_test,
                                     y_pred=y_pred_class,
-                                    target_names=list(map(lambda x: 'class %d' % x, self.classes))))
+                                    ))
         # print confusion metrics
         print("Confusion metrics:\n")
         print(confusion_matrix(y_true=Y_test, y_pred=y_pred_class))

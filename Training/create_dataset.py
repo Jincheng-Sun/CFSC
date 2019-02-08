@@ -65,6 +65,9 @@ def stopwords(file):
 
 def create(input,output1,output2,stopword = False,is_expanded = False):
     labels = conv_label(labels_file=file8, all_labels=file8_all, is_expanded=is_expanded)
+    #=====test=======
+    print(labels)
+    #=====test=======
     if stopword:
         stopword_list = stopwords('../data/baidu+chuanda.txt')
     else:
@@ -80,6 +83,7 @@ def create(input,output1,output2,stopword = False,is_expanded = False):
     count = 0
     dataset_x = []
     dataset_y = []
+    origin_label = []
     for line in lines:
         count += 1
         if (count == 1):
@@ -130,10 +134,12 @@ def create(input,output1,output2,stopword = False,is_expanded = False):
             # vector = vector.tolist()
         dataset_x.append(vector)
         dataset_y.append(labels[employer])
+        origin_label.append(employer)
         # print(employer)
         # print(labels[employer])
     np.save(output1, dataset_x)
     np.save(output2, dataset_y)
+    np.save('../data/origin_label.npy',origin_label)
 #
 # label_dic()
 
