@@ -23,3 +23,12 @@ class TrainKerasModel(TrainAdaptor):
 
     def save(self, model_path):
         self.model.save(model_path)
+
+
+import numpy as np
+
+a = np.random.uniform()
+a = [1,2,3]
+b = [2,3,4]
+c = [3,4,5]
+d = np.hstack((a,b,c))
