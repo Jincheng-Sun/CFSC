@@ -12,6 +12,7 @@ from keras.utils import np_utils
 from keras import regularizers
 from keras import optimizers
 from keras.callbacks import EarlyStopping
+from Training.Networks import Res50
 import sys
 sys.path.append('/home/oem/Projects/CFSC/')
 
@@ -269,12 +270,12 @@ def test():
     print(score)
 
 
-
-test()
+#
+# test()
 #model = Resnet_A(157)
 #from Training.Networks import Res50
-# model = Res50(5)
-#train(model)
+model = Res50(5)
+train(model)
 
 def conti_train():
     model = models.load_model('RCNN2')
