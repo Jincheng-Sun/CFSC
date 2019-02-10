@@ -1,6 +1,6 @@
 import csv
 import sys
-sys.path.append('/home/oem/Projects/CFSC/')
+sys.path.append('/home/oneclick/CFSC/CFSC/')
 import re
 import jieba
 import numpy as np
@@ -144,7 +144,7 @@ def create(input,output1,output2,stopword = False,is_expanded = False):
 # label_dic()
 
 #
-create(file5,file6,file7,stopword=True,is_expanded=False)
-# create(file1,file3,file4,stopword=True)
+create(file5,file6,file7,stopword=True,is_expanded=True)
+create(file1,file3,file4,stopword=True,is_expanded=True)
 
 

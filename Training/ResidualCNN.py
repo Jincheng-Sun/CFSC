@@ -12,9 +12,9 @@ from keras.utils import np_utils
 from keras import regularizers
 from keras import optimizers
 from keras.callbacks import EarlyStopping
-from Training.Networks import Res50
 import sys
 sys.path.append('/home/oneclick/CFSC/CFSC/')
+from Training.Networks import Res50
 
 def bn_relu(layer, dropout=0, **params):
     layer = BatchNormalization()(layer)
@@ -214,7 +214,7 @@ def train(model):
     num = 80000
     X_train = np.load('../data/train_x.npy')[0:num]
     Y_train = np.load('../data/train_y.npy')[0:num]
-    Y_train = Y_train[:, 1]
+    #Y_train = Y_train[:]
     X_train = np.reshape(X_train, [num, 100, 100, 1])
     x_train, x_val, y_train, y_val = train_test_split(X_train, Y_train, test_size=0.1, random_state=42)
     y_train = pd.DataFrame(y_train)[0]
@@ -248,7 +248,7 @@ def train(model):
     Y_test = np.load('../data/test_y.npy')
     # X_train reshape to [40000,100,100]
     X_test = np.reshape(X_test, [4000, 100, 100, 1])
-    Y_test = Y_test[:,1]
+    Y_test = Y_test[:,0]
     score = model.predict(X_test)
     score = np.argmax(score, axis=1)
     score = accuracy_score(score, Y_test)
@@ -261,7 +261,7 @@ def test():
     Y_test = np.load('../data/test_y.npy')
     # X_train reshape to [40000,100,100]
     X_test = np.reshape(X_test, [4000, 100, 100, 1])
-    Y_test = Y_test[:,1]
+    Y_test = Y_test[:,0]
     score = model.predict(X_test)
     score = np.argmax(score, axis=1)
     print(score)
@@ -274,7 +274,7 @@ def test():
 # test()
 #model = Resnet_A(157)
 #from Training.Networks import Res50
-model = Res50(5)
+model = Res50(157)
 train(model)
 
 def conti_train():
