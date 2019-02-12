@@ -1,4 +1,5 @@
-from Template.Resnet_Blocks import ResBlock_original, ResBlock_3layers,global_average_pooling
+from Template.Layers.global_average_pooling import global_average_pooling
+from Template.Blocks.ResBlock_3layers import ResBlock_3layers
 from keras.layers import Input, Conv2D, BatchNormalization, Activation
 from keras import Model
 

@@ -1,6 +1,5 @@
 from keras.callbacks import EarlyStopping
 from Template.trainAdaptor import TrainAdaptor
-
 class TrainKerasModel(TrainAdaptor):
     def __init__(self, model, X_train, Y_train, X_val, Y_val):
         self.X_train = X_train
@@ -17,18 +16,9 @@ class TrainKerasModel(TrainAdaptor):
 
         self.model.fit(self.X_train, self.Y_train,
                        batch_size=batch_size,
-                       epochs=epoch,
-                       validation_data=(self.X_val, self.Y_val),
-                       callbacks=[call_backs])
+                       epochs=epoch,)
+                       # validation_data=(self.X_val, self.Y_val),
+                       # callbacks=[call_backs])
 
     def save(self, model_path):
         self.model.save(model_path)
-
-
-import numpy as np
-
-a = np.random.uniform()
-a = [1,2,3]
-b = [2,3,4]
-c = [3,4,5]
-d = np.hstack((a,b,c))

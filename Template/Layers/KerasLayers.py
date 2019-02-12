@@ -1,4 +1,4 @@
-from keras.layers import Conv2D, BatchNormalization, Activation, Input, Dropout
+from keras.layers import Conv2D, BatchNormalization, Activation
 
 
 def conv_bn_act(input, filters, kernel_size, strides, padding, activation):

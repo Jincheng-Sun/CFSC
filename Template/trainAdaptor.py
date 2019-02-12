@@ -6,6 +6,10 @@ class TrainAdaptor():
         pass
 
     @abstractmethod
+    def process_data(self):
+        pass
+
+    @abstractmethod
     def train(self):
         pass
 
