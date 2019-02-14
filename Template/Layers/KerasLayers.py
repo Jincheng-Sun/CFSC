@@ -46,3 +46,4 @@ def act_conv(input, filters, kernel_size, strides, padding, activation):
     return conv
 
 
+F = [[1,2,3],[4,5,6]]

@@ -1,4 +1,3 @@
-from new_assessment.model_adaptor import ModelAdaptor
 import numpy as np
 from scipy import interp
 from itertools import cycle
@@ -7,7 +6,6 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc, confusion_matrix, classification_report
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import label_binarize
-import os
 
 
 class AssessModel:

@@ -1,4 +1,4 @@
-from new_assessment.keras_model_adaptor import KerasModelAdaptor
+from Template.Assessment.keras_model_adaptor import KerasModelAdaptor
 class KerasHierModelAdaptor:
     def __init__(self, models_path, x_file_path,input_shape, y_file_path, network_size):
         # x(y)_file_path: test data path                Type: String

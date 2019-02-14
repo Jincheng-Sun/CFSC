@@ -1,5 +1,4 @@
-from keras.callbacks import EarlyStopping
-from Template.trainAdaptor import TrainAdaptor
+from Template.Adaptors.trainAdaptor import TrainAdaptor
 class TrainKerasModel(TrainAdaptor):
     def __init__(self, model, X_train, Y_train, X_val, Y_val):
         self.X_train = X_train

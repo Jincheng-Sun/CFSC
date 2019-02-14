@@ -1,4 +1,4 @@
-from Template.trainKerasModel import TrainKerasModel
+from Template.Adaptors.trainKerasModel import TrainKerasModel
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -50,13 +50,13 @@ from Template.Networks.NNnetwork import NNnetwork
 model = NNnetwork(output_classes,input_shape)
 
 '''train model'''
-# train = TrainKerasModel(model=model,
-#                         X_train=X_train, Y_train=Y_train,
-#                         X_val=X_val, Y_val=Y_val)
-# train.train(batch_size=batch_size, epoch=epoch,
-#             call_backs=call_backs, loss=loss, optimizer=optimizer)
-# model = train.model
-# train.save(save_path)
+train = TrainKerasModel(model=model,
+                        X_train=X_train, Y_train=Y_train,
+                        X_val=X_val, Y_val=Y_val)
+train.train(batch_size=batch_size, epoch=epoch,
+            call_backs=call_backs, loss=loss, optimizer=optimizer)
+model = train.model
+train.save(save_path)
 
 '''assessment'''
 

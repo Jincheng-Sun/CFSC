@@ -273,7 +273,7 @@ def test():
 #
 # test()
 #model = Resnet_A(157)
-#from Training.Networks import Res50
+#from Adaptors.Networks import Res50
 model = Res50(157)
 train(model)
 

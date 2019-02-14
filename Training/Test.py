@@ -72,7 +72,7 @@
 # #
 # # d=conv_label(labels_file=file8,all_labels=file8_all)
 #
-# from Training.NN_training_adaptor import NN_training_adaptor
+# from Adaptors.NN_training_adaptor import NN_training_adaptor
 #
 # nadpt = NN_training_adaptor
 # nadpt.load_data(nadpt,'../data/train_x.npy','../data/train_y.npy','../data/test_x.npy','../data/test_y.npy')
