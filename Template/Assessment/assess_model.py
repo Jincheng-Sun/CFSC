@@ -16,13 +16,13 @@ class AssessModel:
         self.pred_class = None
         self.Y_data = None
 
-    def draw_roc(self):
+    def draw_roc(self,num_classes):
         self.pred_score = self.model_adaptor.get_pred_score()
         y_pred_score = self.pred_score
         Y_test = self.model_adaptor.get_Y()
         self.Y_data = Y_test
 
-        n_classes = np.max(Y_test) + 1
+        n_classes = num_classes
         classes = np.arange(n_classes).tolist()
         Y_test_onehot = label_binarize(Y_test, classes=classes)
         n_classes = len(classes)

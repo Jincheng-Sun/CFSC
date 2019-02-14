@@ -22,5 +22,9 @@ class KerasModelAdaptor(ModelAdaptor):
 
 
 	def get_Y(self):
-		return np.load(self.y_file_path)
+		y_label = np.load(self.y_file_path)
+		try:
+			return y_label[:,0]
+		except:
+			return y_label
 		

@@ -50,6 +50,9 @@ from Template.Networks.NNnetwork import NNnetwork
 model = NNnetwork(output_classes,input_shape)
 
 '''train model'''
+
+import tensorflow as tf
+tf.Session(config=tf.ConfigProto(log_device_placement=True))
 train = TrainKerasModel(model=model,
                         X_train=X_train, Y_train=Y_train,
                         X_val=X_val, Y_val=Y_val)
@@ -67,5 +70,5 @@ AssessKeras = KerasModelAdaptor(model_file_path=save_path,
                                 x_test=X_test,y_test=Y_test,
                                 shape=input_shape)
 Assessment = AssessModel(AssessKeras)
-# Assessment.draw_roc(output_classes)
+Assessment.draw_roc(output_classes)
 Assessment.metrics()
