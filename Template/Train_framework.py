@@ -8,9 +8,9 @@ from keras.utils.np_utils import to_categorical
 '''Initialize file path'''
 
 X_train_path = '../data/train_x.npy'
-Y_train_path = '../data/train_y.npy'
+Y_train_path = '../data/train_y_2.npy'
 X_test = '../data/test_x.npy'
-Y_test = '../data/test_y.npy'
+Y_test = '../data/test_y_2.npy'
 save_path = '../models/testone'
 
 '''Initialize training settings'''
