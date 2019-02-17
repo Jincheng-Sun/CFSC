@@ -89,8 +89,8 @@ def create(input,output1,output2,stopword = False,is_expanded = False):
         if (count == 1):
             continue
 
-        # if (count == 40002):
-        #     break
+        if (count == 10002):
+            break
 
 
         # if(count<80000):
@@ -144,7 +144,7 @@ def create(input,output1,output2,stopword = False,is_expanded = False):
 # label_dic()
 
 #
-create(file5,file6,file7,stopword=True,is_expanded=True)
-create(file1,file3,file4,stopword=True,is_expanded=True)
+create(file5,file6,file7,stopword=True,is_expanded=False)
+create(file1,file3,file4,stopword=True,is_expanded=False)
 
 
