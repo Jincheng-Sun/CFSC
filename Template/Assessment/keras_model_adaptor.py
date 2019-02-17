@@ -1,7 +1,7 @@
 from keras import models
 import numpy as np
 from Template.Assessment.model_adaptor import ModelAdaptor
-
+import time
 class KerasModelAdaptor(ModelAdaptor):
 	"""docstring for SklearnModelAdaptor"""
 	def __init__(self, model_file_path, x_test, y_test, shape):
@@ -19,11 +19,21 @@ class KerasModelAdaptor(ModelAdaptor):
 	
 	def get_pred_class(self):
 		x_test = np.load(self.x_file_path)
+
 		x_test = x_test.reshape(self.shape)
 		try:
-			return self.model.predict_classes(x_test)
+			t1 = time.time()
+			pred = self.model.predict_classes(x_test)
+			t2 = time.time()
+			print(t2 - t1)
+			return pred
+
+
 		except:
+			t1 = time.time()
 			pred = self.model.predict(x_test)
+			t2 = time.time()
+			print(t2 - t1)
 			return np.argmax(pred, axis=1)
 
 
