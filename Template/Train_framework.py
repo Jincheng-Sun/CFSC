@@ -8,15 +8,15 @@ from keras.utils.np_utils import to_categorical
 '''Initialize file path'''
 
 X_train_path = '../data/train_x.npy'
-Y_train_path = '../data/train_y_2.npy'
+Y_train_path = '../data/train_y.npy'
 X_test = '../data/test_x.npy'
-Y_test = '../data/test_y_2.npy'
+Y_test = '../data/test_y.npy'
 save_path = '../models/testone'
 
 '''Initialize training settings'''
 
 epoch = 1
-batch_size = 200
+batch_size = 50
 input_shape = [10000,]
 output_classes = 5
 # optional, modify if you like

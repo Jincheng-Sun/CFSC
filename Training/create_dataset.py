@@ -88,12 +88,7 @@ def create(input,output1,output2,stopword = False,is_expanded = False):
         count += 1
         if (count == 1):
             continue
-
-<<<<<<< HEAD
-        if (count == 40002):
-=======
         if (count == 10002):
->>>>>>> 4428c146b991c71fb756a8d7bd93038cf28dace2
             break
 
 
