@@ -1,5 +1,4 @@
 import DataCleaning.cleaning as cl
-from gensim.models import Word2Vec
 import pandas as pd
 import csv
 import numpy as np

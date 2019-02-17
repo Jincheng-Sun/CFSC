@@ -1,0 +1,9 @@
+python3 sentence2label.py
+-s 市民来电反映:其是龙华区滨濂村北社区3里138号海瑞学校后面居民，刚刚因有人拿刀到其家内将门砸坏，破坏楼顶结构，报警到海垦派出所，其刚从派出所回到家发现闹事的人还在，请公安局核实处理，谢谢！（请职能局按规定在30分钟内联系市民，响应处置） -w2v_path models/CBOW.model
+-stopword data/baidu+chuanda.txt -model_path models/80000NN.h5py -label_file data/all_labels.txt
+
+-s: sentence                        type: String
+-w2v_path: word2vec model path      type: String
+-stopword: stop word file path      type: String
+-model_path: model file path        type: String
+-label_file: label file path        type: String

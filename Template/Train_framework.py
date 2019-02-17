@@ -15,10 +15,10 @@ save_path = '../models/testone'
 
 '''Initialize training settings'''
 
-epoch = 20
+epoch = 1
 batch_size = 200
 input_shape = [10000,]
-output_classes = 157
+output_classes = 5
 # optional, modify if you like
 from keras.callbacks import EarlyStopping
 
@@ -58,8 +58,11 @@ train = TrainKerasModel(model=model,
                         X_val=X_val, Y_val=Y_val)
 train.train(batch_size=batch_size, epoch=epoch,
             call_backs=call_backs, loss=loss, optimizer=optimizer)
-model = train.model
+del X_train,Y_train,X_val,Y_val
 train.save(save_path)
+del train
+
+
 
 '''assessment'''
 

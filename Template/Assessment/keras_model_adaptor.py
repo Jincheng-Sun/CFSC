@@ -13,12 +13,18 @@ class KerasModelAdaptor(ModelAdaptor):
 
 	def get_pred_score(self):
 		x_test = np.load(self.x_file_path)
+		x_test = x_test.reshape(self.shape)
 		return self.model.predict(x_test)
 
 	
 	def get_pred_class(self):
 		x_test = np.load(self.x_file_path)
-		return self.model.predict_classes(x_test)
+		x_test = x_test.reshape(self.shape)
+		try:
+			return self.model.predict_classes(x_test)
+		except:
+			pred = self.model.predict(x_test)
+			return np.argmax(pred, axis=1)
 
 
 	def get_Y(self):
@@ -27,4 +33,3 @@ class KerasModelAdaptor(ModelAdaptor):
 			return y_label[:,0]
 		except:
 			return y_label
-		
