@@ -18,6 +18,7 @@ save_path = '../models/testone'
 epoch = 1
 batch_size = 50
 input_shape = [10000,]
+test_shape = [-1, 10000]
 output_classes = 5
 # optional, modify if you like
 from keras.callbacks import EarlyStopping
@@ -71,7 +72,7 @@ from Template.Assessment.assess_model import AssessModel
 
 AssessKeras = KerasModelAdaptor(model_file_path=save_path,
                                 x_test=X_test,y_test=Y_test,
-                                shape=input_shape)
+                                shape=test_shape)
 Assessment = AssessModel(AssessKeras)
 Assessment.draw_roc(output_classes)
 Assessment.metrics()
