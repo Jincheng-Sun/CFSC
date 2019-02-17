@@ -1,9 +1,10 @@
 from Template.Adaptors.trainAdaptor import TrainAdaptor
+import numpy as np
 class TrainKerasModel(TrainAdaptor):
     def __init__(self, model, X_train, Y_train, X_val, Y_val, input_shape):
-        self.X_train = X_train.reshape(input_shape)
-        self.Y_train = Y_train.reshape(input_shape)
-        self.X_val = X_val
+        self.X_train = np.reshape(X_train,input_shape)
+        self.Y_train = Y_train
+        self.X_val = np.reshape(X_val,input_shape)
         self.Y_val = Y_val
         self.model = model
 
