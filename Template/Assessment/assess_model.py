@@ -78,10 +78,7 @@ class AssessModel:
 
     def metrics(self):
         import time
-        t1 = time.time()
         self.pred_class = self.model_adaptor.get_pred_class()
-        t2 = time.time()
-        print(t2-t1)
         Y_test = self.model_adaptor.get_Y()
         y_pred_class = self.pred_class
 
