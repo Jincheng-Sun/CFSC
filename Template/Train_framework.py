@@ -16,7 +16,7 @@ save_path = '../models/testone'
 '''Initialize training settings'''
 
 epoch = 1
-batch_size = 100
+batch_size = 50
 input_shape = [100,100,1]
 output_classes = 5
 # optional, modify if you like
@@ -47,8 +47,8 @@ X_train, Y_train, X_val, Y_val = process_data(X_train_path, Y_train_path, test_s
 '''generalize network'''
 from Template.Networks.NNnetwork import NNnetwork
 from Template.Networks.Residual_Network import Res50
-model = NNnetwork(output_classes,input_shape)
-#model = Res50(output_classes,input_shape)
+#model = NNnetwork(output_classes,input_shape)
+model = Res50(output_classes,input_shape)
 
 '''train model'''
 

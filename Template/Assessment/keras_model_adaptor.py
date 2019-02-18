@@ -24,8 +24,6 @@ class KerasModelAdaptor(ModelAdaptor):
 		try:
 			pred = self.model.predict_classes(x_test)
 			return pred
-
-
 		except:
 			pred = self.model.predict(x_test)
 			return np.argmax(pred, axis=1)
