@@ -16,9 +16,8 @@ save_path = '../models/testone'
 '''Initialize training settings'''
 
 epoch = 1
-batch_size = 50
-input_shape = [10000,]
-test_shape = [-1, 10000]
+batch_size = 100
+input_shape = [100,100,1]
 output_classes = 5
 # optional, modify if you like
 from keras.callbacks import EarlyStopping
@@ -47,8 +46,9 @@ X_train, Y_train, X_val, Y_val = process_data(X_train_path, Y_train_path, test_s
 
 '''generalize network'''
 from Template.Networks.NNnetwork import NNnetwork
-
+from Template.Networks.Residual_Network import Res50
 model = NNnetwork(output_classes,input_shape)
+#model = Res50(output_classes,input_shape)
 
 '''train model'''
 
@@ -56,7 +56,7 @@ import tensorflow as tf
 tf.Session(config=tf.ConfigProto(log_device_placement=True))
 train = TrainKerasModel(model=model,
                         X_train=X_train, Y_train=Y_train,
-                        X_val=X_val, Y_val=Y_val)
+                        X_val=X_val, Y_val=Y_val,input_shape=input_shape)
 train.train(batch_size=batch_size, epoch=epoch,
             call_backs=call_backs, loss=loss, optimizer=optimizer)
 del X_train,Y_train,X_val,Y_val
@@ -72,7 +72,7 @@ from Template.Assessment.assess_model import AssessModel
 
 AssessKeras = KerasModelAdaptor(model_file_path=save_path,
                                 x_test=X_test,y_test=Y_test,
-                                shape=test_shape)
+                                shape=input_shape)
 Assessment = AssessModel(AssessKeras)
-Assessment.draw_roc(output_classes)
+#Assessment.draw_roc(output_classes)
 Assessment.metrics()
