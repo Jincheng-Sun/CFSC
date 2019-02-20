@@ -17,7 +17,7 @@ save_path = '../models/testone'
 
 epoch = 1
 batch_size = 50
-input_shape = [100,100,1]
+input_shape = [10000]
 output_classes = 5
 # optional, modify if you like
 from keras.callbacks import EarlyStopping
@@ -41,14 +41,14 @@ def process_data(X_train_path, Y_train_path, test_size, classes):
     y_val = to_categorical(y_val.map(lambda x: le.transform([x])[0]), classes)
     return x_train, y_train, x_val, y_val
 
-
+#
 X_train, Y_train, X_val, Y_val = process_data(X_train_path, Y_train_path, test_size=0.2, classes= output_classes)
 
 '''generalize network'''
 from Template.Networks.NNnetwork import NNnetwork
 from Template.Networks.Residual_Network import Res50
-#model = NNnetwork(output_classes,input_shape)
-model = Res50(output_classes,input_shape)
+model = NNnetwork(output_classes,input_shape)
+# model = Res50(output_classes,input_shape)
 
 '''train model'''
 
@@ -72,7 +72,7 @@ from Template.Assessment.assess_model import AssessModel
 
 AssessKeras = KerasModelAdaptor(model_file_path=save_path,
                                 x_test=X_test,y_test=Y_test,
-                                shape=input_shape)
+                                input_shape=input_shape)
 Assessment = AssessModel(AssessKeras)
-#Assessment.draw_roc(output_classes)
+Assessment.draw_roc(output_classes)
 Assessment.metrics()

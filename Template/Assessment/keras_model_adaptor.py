@@ -7,12 +7,13 @@ import time
 class KerasModelAdaptor(ModelAdaptor):
     """docstring for SklearnModelAdaptor"""
 
-    def __init__(self, model_file_path, x_test, y_test, shape):
+    def __init__(self, model_file_path, x_test, y_test, input_shape):
+        shape = input_shape
         self.model = models.load_model(model_file_path)
         self.y_file_path = y_test
         self.x_file_path = x_test
+        shape = shape.insert(0,-1)
         self.shape = shape
-        self.shape.insert(0, -1)
         pass
 
     def get_pred_score(self):
