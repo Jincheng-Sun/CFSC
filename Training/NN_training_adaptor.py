@@ -45,7 +45,7 @@ class NN_training_adaptor(Training_adaptor):
             try:
                 num_labels = kwargs['labels_num']
             except:
-                num_labels = Y_label.max()
+                num_labels = Y_label.max() + 1
             # ---------------
             X_train_new = []
             Y_train_new = []
@@ -88,9 +88,9 @@ class NN_training_adaptor(Training_adaptor):
         from keras.layers import Dense, Dropout
         num = kwargs['cls_num']
         model = Sequential()
-        model.add(Dense(1024, input_shape=(self.Data_dim,), activation='relu'))
+        model.add(Dense(512, input_shape=(self.Data_dim,), activation='relu'))
         model.add(Dropout(0.2))
-        model.add(Dense(256, activation='relu'))
+        model.add(Dense(128, activation='relu'))
         model.add(Dropout(0.2))
         model.add(Dense(num, activation='softmax'))
         model.summary()
@@ -106,13 +106,14 @@ class NN_training_adaptor(Training_adaptor):
                            optimizer='adam',
                            metrics=['accuracy'])
         # model = models.load_model('0.7305NN')
-        monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3, patience=5, verbose=1, mode='auto')
+        monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3, patience=5, verbose=1, mode='auto',)
         self.model.fit(X_train, Y_train,
                        batch_size=500,
                        epochs=50,
                        validation_data=(x_val, y_val),
                        callbacks=[monitor])
         self.model.save(model_path)
+        del self.model
 
     def load_model(self, model_path):
         from keras.models import load_model

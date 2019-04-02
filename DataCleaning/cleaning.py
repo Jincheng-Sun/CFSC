@@ -98,7 +98,7 @@ def hgdProcess_dept(sentence):
         sentence = re.sub('\n','',labels[sentence])
     except:
         sentence = sentence
-    return sentence, '，'.join(ns)
+    return sentence
 
 
 def jieba_process_content(cont,model):

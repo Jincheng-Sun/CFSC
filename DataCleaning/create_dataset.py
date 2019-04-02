@@ -19,7 +19,7 @@ test_set = '../data/testset.csv'
 def valid2set(in_file, per):
 
     lines, count = count_dept.count_dept(in_file, all_label)
-    create_label(all_label, count, label)
+    # create_label(all_label, count, label)
     valid2dataset.valid2set(label, in_file, dataset_file)
     splitData.split(dataset_file, int(lines * per), train_set, test_set)
 
@@ -30,6 +30,6 @@ def extract_data(dataset_file,num,train = True):
         out_file = '../data/%d_testset.csv'%(num)
     splitData.extract(dataset_file,num,out_file)
 
-valid2set(valid_data,0.8)
-extract_data(train_set,80000,True)
-extract_data(test_set,4000,False)
+# valid2set(valid_data,0.8)
+# extract_data(train_set,80000,True)
+# extract_data(test_set,4000,False)

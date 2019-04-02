@@ -46,3 +46,4 @@ def valid2set(label_file,valid_data,dataset_file):
                                     '行业分类1级', '行业分类2级', '行业分类3级', '行业分类4级',
                                     '诉求内容', '原处置单位', '处置单位', '单位类别'})
     dataset.to_csv(dataset_file, encoding='gb18030', index=False)
+

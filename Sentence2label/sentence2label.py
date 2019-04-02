@@ -69,7 +69,21 @@ def main():
     label = index2label(index,label_file)
     print(label)
 
-if __name__ == '__main__':
-    label = main()
+# if __name__ == '__main__':
+#     label = main()
+#
+# 'python3 sentence2label.py -s 市民来电反映:其是龙华区滨濂村北社区3里138号海瑞学校后面居民，刚刚因有人拿刀到其家内将门砸坏，破坏楼顶结构，报警到海垦派出所，其刚从派出所回到家发现闹事的人还在，请公安局核实处理，谢谢！（请职能局按规定在30分钟内联系市民，响应处置） -w2v_path models/CBOW.model -stopword data/baidu+chuanda.txt -model_path models/80000NN.h5py -label_file data/all_labels.txt'
+#
 
-'python3 sentence2label.py -s 市民来电反映:其是龙华区滨濂村北社区3里138号海瑞学校后面居民，刚刚因有人拿刀到其家内将门砸坏，破坏楼顶结构，报警到海垦派出所，其刚从派出所回到家发现闹事的人还在，请公安局核实处理，谢谢！（请职能局按规定在30分钟内联系市民，响应处置） -w2v_path models/CBOW.model -stopword data/baidu+chuanda.txt -model_path models/80000NN.h5py -label_file data/all_labels.txt'
+sentence = '市民 来电咨询:有线电视不缴费的情况下有几个免费台可观看，请有线电视核实处理， 请职能局在规定30分钟内联系市民，响应处置。'
+stopword_path = '../data/baidu+chuanda.txt'
+w2v_model_path = '../models/CBOW.model'
+model_path = '../models/80000NN.h5py'
+label_file = '../data/all_labels.txt'
+
+def pred(sentence):
+    vector = convert(sentence=sentence, stopfile=stopword_path, w2v_model_path=w2v_model_path)
+    model = models.load_model(model_path)
+    index = model.predict_classes(vector)
+    label = index2label(index, label_file)
+    print(label)

@@ -274,7 +274,7 @@ def test():
 # test()
 #model = Resnet_A(157)
 #from Adaptors.Networks import Res50
-model = Res50(157)
+model = ResnetB(True)
 train(model)
 
 def conti_train():
